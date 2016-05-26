@@ -1,0 +1,6 @@
+lib/dotnet/System.Native.so
+lib/dotnet/System.IO.Compression.Native.so
+lib/dotnet/System.Net.Http.Native.so
+lib/dotnet/System.Net.Security.Native.so
+lib/dotnet/System.Security.Cryptography.Native.so
+libdata/pkgconfig/System.Native.pc

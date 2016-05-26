@@ -1,0 +1,4 @@
+bin/aspnet-sampleapp
+etc/aspnet-sampleapp.pfx
+lib/dotnet/aspnet-sampleapp.exe
+libdata/pkgconfig/aspnet-sampleapp.pc

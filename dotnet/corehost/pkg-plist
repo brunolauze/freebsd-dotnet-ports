@@ -1,0 +1,3 @@
+lib/coreclr/libhostpolicy.so
+lib/coreclr/libhostfxr.so
+libdata/pkgconfig/corehost.pc

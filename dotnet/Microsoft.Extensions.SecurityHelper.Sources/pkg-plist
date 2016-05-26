@@ -1,0 +1,2 @@
+include/dotnet/Microsoft.Extensions.SecurityHelper.Sources/SecurityHelper.cs
+libdata/pkgconfig/Microsoft.Extensions.SecurityHelper.Sources.pc

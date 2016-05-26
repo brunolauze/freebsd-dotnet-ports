@@ -1,0 +1,4 @@
+bin/csc
+lib/dotnet/csc.exe
+lib/dotnet/csc2.exe
+libdata/pkgconfig/Microsoft.CodeAnalysis.CSharp.CommandLine.pc

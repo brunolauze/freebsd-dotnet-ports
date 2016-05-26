@@ -1,0 +1,3 @@
+bin/helloworld
+lib/dotnet/HelloWorld.exe
+libdata/pkgconfig/coreclr-helloworld.pc

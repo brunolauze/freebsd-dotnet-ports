@@ -1,0 +1,3 @@
+bin/roslyn.csharperrorfactsgenerator
+lib/dotnet/CSharpErrorFactsGenerator.exe
+libdata/pkgconfig/Roslyn.Compilers.CSharp.Internal.CSharpErrorFactsGenerator.pc

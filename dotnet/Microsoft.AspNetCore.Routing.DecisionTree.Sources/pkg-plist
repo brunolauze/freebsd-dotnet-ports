@@ -1,0 +1,8 @@
+include/dotnet/Microsoft.AspNetCore.Routing.DecisionTree.Sources/DecisionCriterion.cs
+include/dotnet/Microsoft.AspNetCore.Routing.DecisionTree.Sources/DecisionCriterionValue.cs
+include/dotnet/Microsoft.AspNetCore.Routing.DecisionTree.Sources/DecisionCriterionValueEqualityComparer.cs
+include/dotnet/Microsoft.AspNetCore.Routing.DecisionTree.Sources/DecisionTreeBuilder.cs
+include/dotnet/Microsoft.AspNetCore.Routing.DecisionTree.Sources/DecisionTreeNode.cs
+include/dotnet/Microsoft.AspNetCore.Routing.DecisionTree.Sources/IClassifier.cs
+include/dotnet/Microsoft.AspNetCore.Routing.DecisionTree.Sources/ItemDescriptor.cs
+libdata/pkgconfig/Microsoft.AspNetCore.Routing.DecisionTree.Sources.pc

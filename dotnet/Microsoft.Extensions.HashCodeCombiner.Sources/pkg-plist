@@ -1,0 +1,2 @@
+include/dotnet/Microsoft.Extensions.HashCodeCombiner.Sources/HashCodeCombiner.cs
+libdata/pkgconfig/Microsoft.Extensions.HashCodeCombiner.Sources.pc

@@ -1,0 +1,3 @@
+lib/powershell/v1.0/Modules/Microsoft.WSMan.Management/Microsoft.WSMan.Management.psd1
+lib/dotnet/Microsoft.WSMan.Management.dll
+libdata/pkgconfig/Microsoft.WSMan.Management.pc

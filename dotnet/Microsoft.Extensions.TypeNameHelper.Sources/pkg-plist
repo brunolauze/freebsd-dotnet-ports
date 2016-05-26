@@ -1,0 +1,2 @@
+include/dotnet/Microsoft.Extensions.TypeNameHelper.Sources/TypeNameHelper.cs
+libdata/pkgconfig/Microsoft.Extensions.TypeNameHelper.Sources.pc

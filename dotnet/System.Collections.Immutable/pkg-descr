@@ -1,0 +1,2 @@
+The common repository includes multiple source files that are consumed 
+through build-time NuGet packages.

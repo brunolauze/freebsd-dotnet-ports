@@ -1,0 +1,2 @@
+include/dotnet/Microsoft.Extensions.ActivatorUtilities.Sources/ActivatorUtilities.cs
+libdata/pkgconfig/Microsoft.Extensions.ActivatorUtilities.Sources.pc

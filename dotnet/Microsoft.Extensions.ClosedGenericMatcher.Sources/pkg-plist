@@ -1,0 +1,2 @@
+include/dotnet/Microsoft.Extensions.ClosedGenericMatcher.Sources/ClosedGenericMatcher.cs
+libdata/pkgconfig/Microsoft.Extensions.ClosedGenericMatcher.Sources.pc

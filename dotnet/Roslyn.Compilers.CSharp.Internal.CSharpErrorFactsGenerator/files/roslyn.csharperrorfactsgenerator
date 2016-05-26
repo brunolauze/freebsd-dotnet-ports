@@ -1,0 +1,4 @@
+#!/bin/sh
+
+/usr/local/lib/dotnet/corerun /usr/local/lib/dotnet/CSharpErrorFactsGenerator.exe $@
+

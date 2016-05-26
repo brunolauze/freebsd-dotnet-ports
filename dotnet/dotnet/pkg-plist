@@ -1,0 +1,6 @@
+bin/dotnet
+lib/dotnet/dotnet.exe
+lib/dotnet/.version
+lib/dotnet/csc.runtimeconfig.json
+lib/dotnet/dotnet.runtimeconfig.json
+libdata/pkgconfig/dotnet-1.0.pc

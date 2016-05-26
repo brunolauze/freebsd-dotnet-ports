@@ -1,0 +1,30 @@
+--- Src/Newtonsoft.Json/Newtonsoft.Json.Net40.csproj.orig	2015-12-26 17:44:42.469040000 -0500
++++ Src/Newtonsoft.Json/Newtonsoft.Json.Net40.csproj	2015-12-26 17:47:29.872530000 -0500
+@@ -10,9 +10,8 @@
+     <AppDesignerFolder>Properties</AppDesignerFolder>
+     <RootNamespace>Newtonsoft.Json</RootNamespace>
+     <AssemblyName>Newtonsoft.Json</AssemblyName>
+-    <SignAssembly>false</SignAssembly>
+-    <AssemblyOriginatorKeyFile>
+-    </AssemblyOriginatorKeyFile>
++    <SignAssembly>true</SignAssembly>
++    <AssemblyOriginatorKeyFile>Dynamic.snk</AssemblyOriginatorKeyFile>
+     <SccProjectName>
+     </SccProjectName>
+     <SccLocalPath>
+@@ -27,7 +26,7 @@
+     <UpgradeBackupLocation>
+     </UpgradeBackupLocation>
+     <IsWebBootstrapper>false</IsWebBootstrapper>
+-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
++    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+     <PublishUrl>publish\</PublishUrl>
+     <Install>true</Install>
+     <InstallFrom>Disk</InstallFrom>
+@@ -316,4 +315,4 @@
+   </ItemGroup>
+   <ItemGroup />
+   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+-</Project>
+\ No newline at end of file
++</Project>

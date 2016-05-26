@@ -1,0 +1,3 @@
+bin/roslyn.csharpsyntaxgenerator
+lib/dotnet/CSharpSyntaxGenerator.exe
+libdata/pkgconfig/Roslyn.Compilers.CSharp.Internal.CSharpSyntaxGenerator.pc

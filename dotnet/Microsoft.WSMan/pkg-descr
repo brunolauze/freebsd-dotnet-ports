@@ -1,0 +1,3 @@
+The Microsoft.Vsa namespace contains interfaces that allow you to integrate 
+Script for the.NET Framework script engines into applications, and to 
+compile and execute code at run time.

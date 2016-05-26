@@ -1,0 +1,2 @@
+lib/dotnet/System.Security.Cryptography.OpenSsl.dll
+libdata/pkgconfig/System.Security.Cryptography.OpenSsl.pc

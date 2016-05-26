@@ -1,0 +1,3 @@
+include/dotnet/Microsoft.Extensions.CopyOnWriteDictionary.Sources/CopyOnWriteDictionary.cs
+include/dotnet/Microsoft.Extensions.CopyOnWriteDictionary.Sources/CopyOnWriteDictionaryHolder.cs
+libdata/pkgconfig/Microsoft.Extensions.CopyOnWriteDictionary.Sources.pc

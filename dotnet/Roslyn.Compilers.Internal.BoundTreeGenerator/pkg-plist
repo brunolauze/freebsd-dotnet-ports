@@ -1,0 +1,3 @@
+bin/roslyn.boundtreegenerator
+lib/dotnet/BoundTreeGenerator.exe
+libdata/pkgconfig/Roslyn.Compilers.Internal.BoundTreeGenerator.pc
