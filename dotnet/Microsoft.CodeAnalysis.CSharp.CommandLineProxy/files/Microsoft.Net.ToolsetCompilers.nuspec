@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.Net.ToolsetCompilers</id>
+    <version>1.0.0-rc3-20150520-02</version>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <licenseUrl>http://go.microsoft.com/fwlink/?LinkId=529444</licenseUrl>
+    <projectUrl>http://msdn.com/roslyn</projectUrl>
+    <description>.Net Compilers Toolset package. Referencing this package will cause the project to be built using the specific version of the C# and Visual Basic compilers contained in the package, as opposed to any system installed version.
+      
+Supported Platforms:
+- .NET Framework 4.5</description>
+    <releaseNotes>Preview of Microsoft .NET Compiler Platform (Roslyn)</releaseNotes>
+    <language>en-US</language>
+    <tags>Roslyn CodeAnalysis Compiler CSharp VB VisualBasic Parser Scanner Lexer Emit CodeGeneration Metadata IL Compilation Scripting Syntax Semantics</tags>
+  </metadata>
+</package>

@@ -3,21 +3,11 @@
 
 PORTNAME=	Microsoft.AspNetCore.Mvc.ApiExplorer
 PORTVERSION=	1.0.0.0
-CATEGORIES=	dotnet devel
-MAINTAINER=	brunolauze@msn.com
 
-VALID_CATEGORIES+=dotnet #COMMENT=        Open source implementation of .NET Development Framework
-
-BUILD_DEPENDS+= mono:${PORTSDIR}/lang/mono \
-		${NET_DEPENDS} \
-		Microsoft.Extensions.PropertyHelper.Sources>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.PropertyHelper.Sources \
+BUILD_DEPENDS+=	Microsoft.Extensions.PropertyHelper.Sources>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.PropertyHelper.Sources \
 		Microsoft.Extensions.ClosedGenericMatcher.Sources>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.ClosedGenericMatcher.Sources
 
-RUN_DEPENDS+=	${NET_DEPENDS}
-
-NET_DEPENDS+=	coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
-		System.Private.CoreLib>=1.0:${PORTSDIR}/dotnet/System.Private.CoreLib \
-		System.Collections.Concurrent>=1.0:${PORTSDIR}/dotnet/System.Collections.Concurrent \
+NET_DEPENDS+=	System.Collections.Concurrent>=1.0:${PORTSDIR}/dotnet/System.Collections.Concurrent \
 		Microsoft.Extensions.Primitives>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.Primitives \
 		Microsoft.Extensions.ObjectPool>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.ObjectPool \
 		Microsoft.Extensions.Options>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.Options \
@@ -35,31 +25,9 @@ NET_DEPENDS+=	coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
 		Microsoft.Extensions.PlatformAbstractions>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.PlatformAbstractions \
 		Microsoft.Net.Http.Headers>=1.0:${PORTSDIR}/dotnet/Microsoft.Net.Http.Headers
 
-USE_GITHUB=	yes
-GH_ACCOUNT=	aspnet
 GH_PROJECT=	Mvc
 
-USES=           dotnet
-
-configure:
-
-do-configure:
-
-build:
-	@mkdir -p ${STAGEDIR}
-	@mkdir -p ${STAGEDIR}/usr
-	@mkdir -p ${STAGEDIR}${PREFIX}
-	@mkdir -p ${STAGEDIR}${PREFIX}/lib
-	@mkdir -p ${STAGEDIR}${PREFIX}/lib/dotnet
-	@mkdir -p ${STAGEDIR}${PREFIX}/libdata
-	@mkdir -p ${STAGEDIR}${PREFIX}/libdata/pkgconfig
-	@mkdir -p ${WRKSRC}/bin
-	@mkdir -p ${WRKSRC}/bin/Release
-	@cd ${WRKSRC} && ${FIND} src/${PORTNAME} -name "*.cs" | xargs ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ \
-			-keyfile:./tools/Key.snk \
-			-out:bin/Release/${PORTNAME}.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.dll \
+DOTNET_REFERENCES+=	-reference:${LOCALBASE}/lib/dotnet/System.Collections.dll \
 			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Concurrent.dll \
 			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
 			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
@@ -80,18 +48,11 @@ build:
 			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Authorization.dll \
 			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Mvc.Abstractions.dll \
 			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Mvc.Core.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Net.Http.Headers.dll \
-			-target:library \
-			-warn:4 \
-			${LOCALBASE}/include/dotnet/Microsoft.Extensions.PropertyHelper.Sources/PropertyHelper.cs \
+			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Net.Http.Headers.dll
+
+DOTNET_FILES+=		${LOCALBASE}/include/dotnet/Microsoft.Extensions.PropertyHelper.Sources/PropertyHelper.cs \
                         ${LOCALBASE}/include/dotnet/Microsoft.Extensions.ClosedGenericMatcher.Sources/ClosedGenericMatcher.cs
 
-do-install:
-	@${INSTALL_DATA} ${WRKSRC}/bin/Release/${PORTNAME}.dll ${STAGEDIR}${PREFIX}/lib/dotnet/${PORTNAME}.dll
-	@echo "Name:	${PORTNAME}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Version: ${PORTVERSION}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Description:  .NET Assembly" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-
-.include <bsd.port.mk>
+.include <../../dotnet/aspnet/Makefile.common>
 
 

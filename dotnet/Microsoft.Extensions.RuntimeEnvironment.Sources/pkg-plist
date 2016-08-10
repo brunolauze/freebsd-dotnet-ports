@@ -1,0 +1,4 @@
+include/dotnet/Microsoft.Extensions.RuntimeEnvironment.Sources/RuntimeEnvironment.cs
+include/dotnet/Microsoft.Extensions.RuntimeEnvironment.Sources/Native/PlatformApis.cs
+include/dotnet/Microsoft.Extensions.RuntimeEnvironment.Sources/Native/NativeMethods.Windows.cs
+libdata/pkgconfig/Microsoft.Extensions.RuntimeEnvironment.Sources.pc

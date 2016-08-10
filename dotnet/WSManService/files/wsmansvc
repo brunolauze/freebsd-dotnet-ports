@@ -1,5 +1,0 @@
-#!/bin/sh
-
-PSRoot=usr/local/lib/powershell/v1.0
-
-cd $PSRoot && mono $MONO_OPTIONS $PSRoot/WSManService.exe

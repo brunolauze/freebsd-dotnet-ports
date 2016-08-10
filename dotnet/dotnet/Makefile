@@ -41,6 +41,7 @@ NET_DEPENDS+=   coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
 		System.Diagnostics.Process>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.Process \
 		System.Dynamic.Runtime>=1.0:${PORTSDIR}/dotnet/System.Dynamic.Runtime \
 		System.Linq.Expressions>=1.0:${PORTSDIR}/dotnet/System.Linq.Expressions \
+		System.Management>=1.0:${PORTSDIR}/dotnet/System.Management \
 		System.Private.DataContractSerialization>=1.0:${PORTSDIR}/dotnet/System.Private.DataContractSerialization \
 		System.Net.Sockets>=1.0:${PORTSDIR}/dotnet/System.Net.Sockets \
 		System.Runtime.Serialization.Primitives>=1.0:${PORTSDIR}/dotnet/System.Runtime.Serialization.Primitives \

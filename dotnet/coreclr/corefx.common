@@ -1,0 +1,11 @@
+USE_GITHUB=		yes
+GH_ACCOUNT=		dotnet
+GH_PROJECT=		corefx
+GH_TAGNAME=		master
+DOTNET_SOURCE_PATH=	${WRKSRC}/src/${PORTNAME}/src
+DOTNET_KEYFILE=		${PATCHDIR}/mono.snk
+DOTNET_UNSAFE=		yes
+PORTREVISION=		1
+
+
+.include <../../dotnet/coreclr/Makefile.common>

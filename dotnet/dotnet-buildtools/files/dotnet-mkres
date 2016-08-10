@@ -1,0 +1,3 @@
+#!/bin/sh
+
+/usr/local/lib/dotnet-buildtools/corerun /usr/local/lib/dotnet-buildtools/dotnet-mkres.exe $@

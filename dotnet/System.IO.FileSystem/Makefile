@@ -3,82 +3,49 @@
 
 PORTNAME=	System.IO.FileSystem
 PORTVERSION=	1.0.0.0
-CATEGORIES=	dotnet devel
-MAINTAINER=	brunolauze@msn.com
 
-VALID_CATEGORIES+=dotnet #COMMENT=        Open source implementation of .NET Development Framework
-
-BUILD_DEPENDS+= mono:${PORTSDIR}/lang/mono \
-		${NET_DEPENDS}
-
-NET_DEPENDS+=   coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
-		System.Private.CoreLib>=1.0:${PORTSDIR}/dotnet/System.Private.CoreLib \
-		System.Collections>=1.0:${PORTSDIR}/dotnet/System.Collections \
+NET_DEPENDS+=	System.Collections>=1.0:${PORTSDIR}/dotnet/System.Collections \
 		System.Diagnostics.Debug>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.Debug
 
-RUN_DEPENDS+=   ${NET_DEPENDS}
+DOTNET_XARGS=	
+DOTNET_RESOURCE_COMMAND=@cd ${WRKSRC}/src/${PORTNAME}/src/Resources && ${DOTNET_RESGEN} Strings.resx,${PORTNAME}.SR.resources
 
-USE_GITHUB=	yes
-GH_ACCOUNT=	dotnet
-GH_PROJECT=	corefx
+DOTNET_REFERENCES+=	${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Collections.dll \
+			${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll
 
-USES=           dotnet
+DOTNET_RESOURCES+=	${DOTNET_RES}:src/${PORTNAME}/src/Resources/${PORTNAME}.SR.resources
 
-configure:
-
-do-configure:
-
-build:
-	@mkdir -p ${STAGEDIR}
-	@mkdir -p ${STAGEDIR}/usr
-	@mkdir -p ${STAGEDIR}${PREFIX}
-	@mkdir -p ${STAGEDIR}${PREFIX}/lib
-	@mkdir -p ${STAGEDIR}${PREFIX}/lib/dotnet
-	@mkdir -p ${STAGEDIR}${PREFIX}/libdata
-	@mkdir -p ${STAGEDIR}${PREFIX}/libdata/pkgconfig
-	@mkdir -p ${WRKSRC}/bin
-	@mkdir -p ${WRKSRC}/bin/Release
-	@cd ${WRKSRC}/src/${PORTNAME}/src/Resources && resgen /useSourcePath /compile Strings.resx,${PORTNAME}.Strings.resources
-	@cd ${WRKSRC} && ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ -unsafe+ \
-			-keyfile:${PATCHDIR}/mono.snk \
-			-out:bin/Release/${PORTNAME}.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-resource:src/${PORTNAME}/src/Resources/${PORTNAME}.Strings.resources \
-			-target:library \
-			-nowarn:0436 \
-			-warn:4 \
-			src/System.IO.FileSystem/src/SR.cs \
-			src/System.IO.FileSystem/src/System/IO/Error.cs \
-			src/System.IO.FileSystem/src/System/IO/Directory.cs \
-			src/System.IO.FileSystem/src/System/IO/DirectoryInfo.cs \
-			src/System.IO.FileSystem/src/System/IO/File.cs \
-			src/System.IO.FileSystem/src/System/IO/FileInfo.cs \
-			src/System.IO.FileSystem/src/System/IO/FileOptions.cs \
-			src/System.IO.FileSystem/src/System/IO/FileStream.cs \
-			src/System.IO.FileSystem/src/System/IO/FileStreamBase.cs \
-			src/System.IO.FileSystem/src/System/IO/FileSystem.cs \
-			src/System.IO.FileSystem/src/System/IO/FileSystemInfo.cs \
-			src/System.IO.FileSystem/src/System/IO/IFileSystemObject.cs \
-			src/System.IO.FileSystem/src/System/IO/Iterator.cs \
-			src/System.IO.FileSystem/src/System/IO/PathHelpers.cs \
-			src/System.IO.FileSystem/src/System/IO/PathPair.cs \
-			src/System.IO.FileSystem/src/System/IO/ReadLinesIterator.cs \
-			src/System.IO.FileSystem/src/System/IO/SearchOption.cs \
-			src/System.IO.FileSystem/src/System/IO/SearchTarget.cs \
+DOTNET_FILES+=		src/${PORTNAME}/src/AssemblyInfo.cs \
+			src/${PORTNAME}/src/SR.cs \
+			src/${PORTNAME}/src/System/IO/Error.cs \
+			src/${PORTNAME}/src/System/IO/Directory.cs \
+			src/${PORTNAME}/src/System/IO/DirectoryInfo.cs \
+			src/${PORTNAME}/src/System/IO/File.cs \
+			src/${PORTNAME}/src/System/IO/FileInfo.cs \
+			src/${PORTNAME}/src/System/IO/FileOptions.cs \
+			src/${PORTNAME}/src/System/IO/FileStream.cs \
+			src/${PORTNAME}/src/System/IO/FileStreamBase.cs \
+			src/${PORTNAME}/src/System/IO/FileSystem.cs \
+			src/${PORTNAME}/src/System/IO/FileSystemInfo.cs \
+			src/${PORTNAME}/src/System/IO/IFileSystemObject.cs \
+			src/${PORTNAME}/src/System/IO/Iterator.cs \
+			src/${PORTNAME}/src/System/IO/PathHelpers.cs \
+			src/${PORTNAME}/src/System/IO/PathPair.cs \
+			src/${PORTNAME}/src/System/IO/ReadLinesIterator.cs \
+			src/${PORTNAME}/src/System/IO/SearchOption.cs \
+			src/${PORTNAME}/src/System/IO/SearchTarget.cs \
 			${WRKSRC}/src/Common/src/System/Collections/Generic/EnumerableHelpers.cs \
 			${WRKSRC}/src/Common/src/System/IO/StringBuilderCache.cs \
 			${WRKSRC}/src/Common/src/System/IO/PathInternal.cs \
 			${WRKSRC}/src/Common/src/System/IO/PathInternal.CaseSensitivity.cs \
 			${WRKSRC}/src/Common/src/Microsoft/Win32/SafeHandles/SafeFileHandle.Unix.cs \
-			src/System.IO.FileSystem/src/Microsoft/Win32/SafeHandles/SafeFileHandle.Unix.cs \
-			src/System.IO.FileSystem/src/System/IO/FileStream.Unix.cs \
-			src/System.IO.FileSystem/src/System/IO/FileSystem.Current.Unix.cs \
-			src/System.IO.FileSystem/src/System/IO/FileSystemInfo.Unix.cs \
-			src/System.IO.FileSystem/src/System/IO/PathHelpers.Unix.cs \
-			src/System.IO.FileSystem/src/System/IO/UnixFileStream.cs \
-			src/System.IO.FileSystem/src/System/IO/UnixFileSystem.cs \
+			src/${PORTNAME}/src/Microsoft/Win32/SafeHandles/SafeFileHandle.Unix.cs \
+			src/${PORTNAME}/src/System/IO/FileStream.Unix.cs \
+			src/${PORTNAME}/src/System/IO/FileSystem.Current.Unix.cs \
+			src/${PORTNAME}/src/System/IO/FileSystemInfo.Unix.cs \
+			src/${PORTNAME}/src/System/IO/PathHelpers.Unix.cs \
+			src/${PORTNAME}/src/System/IO/UnixFileStream.cs \
+			src/${PORTNAME}/src/System/IO/UnixFileSystem.cs \
 			${WRKSRC}/src/Common/src/Interop/Unix/Interop.Libraries.cs \
 			${WRKSRC}/src/Common/src/Interop/Unix/Interop.Errors.cs \
 			${WRKSRC}/src/Common/src/Interop/Unix/Interop.IOErrors.cs \
@@ -112,14 +79,8 @@ build:
 			${WRKSRC}/src/Common/src/Interop/Unix/System.Native/Interop.Write.cs \
 			${WRKSRC}/src/Common/src/Interop/Unix/System.Native/Interop.UTime.cs \
 			${WRKSRC}/src/Common/src/Microsoft/Win32/SafeHandles/SafeDirectoryHandle.Unix.cs \
-			src/System.IO.FileSystem.Primitives/src/System/IO/FileAttributes.cs \
-			src/System.IO.FileSystem.Primitives/src/System/IO/FileMode.cs \
-			src/System.IO.FileSystem.Primitives/src/System/IO/FileShare.cs
+			src/${PORTNAME}.Primitives/src/System/IO/FileAttributes.cs \
+			src/${PORTNAME}.Primitives/src/System/IO/FileMode.cs \
+			src/${PORTNAME}.Primitives/src/System/IO/FileShare.cs
 
-do-install:
-	@${INSTALL_DATA} ${WRKSRC}/bin/Release/${PORTNAME}.dll ${STAGEDIR}${PREFIX}/lib/dotnet/${PORTNAME}.dll
-	@echo "Name:	${PORTNAME}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Version: ${PORTVERSION}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Description:  .NET Assembly" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-
-.include <bsd.port.mk>
+.include <../../dotnet/coreclr/corefx.common>

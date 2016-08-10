@@ -3,10 +3,6 @@
 
 PORTNAME=	coreclr
 PORTVERSION=	1.0.0.0
-CATEGORIES=	dotnet devel
-MAINTAINER=	brunolauze@msn.com
-
-VALID_CATEGORIES+=dotnet #COMMENT=        Open source implementation of .NET Development Framework
 
 BUILD_DEPENDS+= bash:${PORTSDIR}/shells/bash \
 		python:${PORTSDIR}/lang/python 
@@ -15,7 +11,7 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	dotnet
 GH_PROJECT=	coreclr
 
-USES=           bison compiler:c11 cpe gettext gmake iconv libtool pathfix cmake dotnet
+USES=           bison compiler:c11 cpe gettext gmake iconv libtool pathfix cmake
 GNU_CONFIGURE=  yes
 USE_LDCONFIG=   yes
 
@@ -127,4 +123,4 @@ do-install:
 	@echo "Version: ${PORTVERSION}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
 	@echo "Description:  .NET Assembly" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
 
-.include <bsd.port.mk>
+.include <../../dotnet/coreclr/Makefile.common>

@@ -3,21 +3,10 @@
 
 PORTNAME=	Microsoft.CodeAnalysis.CSharp
 PORTVERSION=	1.0.0.0
-CATEGORIES=	dotnet devel
-MAINTAINER=	brunolauze@msn.com
 
-VALID_CATEGORIES+=dotnet #COMMENT=        Open source implementation of .NET Development Framework
+BUILD_DEPENDS+=	${ROSLYN_TOOLS}
 
-BUILD_DEPENDS+= mono:${PORTSDIR}/lang/mono \
-		${NET_DEPENDS} \
-		${ROSLYN_TOOLS}
-
-RUN_DEPENDS+=   ${NET_DEPENDS}
-
-NET_DEPENDS+=   coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
-		System.Private.CoreLib>=1.0:${PORTSDIR}/dotnet/System.Private.CoreLib \
-		coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
-		System.Collections>=1.0:${PORTSDIR}/dotnet/System.Collections \
+NET_DEPENDS+=	System.Collections>=1.0:${PORTSDIR}/dotnet/System.Collections \
 		System.Collections.Immutable>=1.0:${PORTSDIR}/dotnet/System.Collections.Immutable \
 		System.Collections.Concurrent>=1.0:${PORTSDIR}/dotnet/System.Collections.Concurrent \
 		System.Diagnostics.Debug>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.Debug \
@@ -39,62 +28,45 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	dotnet
 GH_PROJECT=	roslyn
 
-USES=           dotnet
 
-configure:
+DOTNET_RESOURCE_COMMAND=cd ${WRKSRC}/src/Compilers/CSharp/Portable && ${DOTNET_RESGEN} CSharpResources.resx,${PORTNAME}.CSharpResources.resources
+DOTNET_PREBUILD_COMMAND=cd ${WRKSRC}/src/Compilers/CSharp/Portable && ${LOCALBASE}/bin/roslyn.boundtreegenerator CSharp BoundTree/BoundNodes.xml BoundTree/BoundNodes.Generated.cs && \
+			cd ${WRKSRC}/src/Compilers/CSharp/Portable && ${LOCALBASE}/bin/roslyn.csharpsyntaxgenerator Syntax/Syntax.xml Syntax/Syntax.xml.Generated.cs && \
+			cd ${WRKSRC}/src/Compilers/CSharp/Portable && ${LOCALBASE}/bin/roslyn.csharperrorfactsgenerator Errors/ErrorCode.cs Errors/ErrorFacts.Generated.cs
 
-do-configure:
 
-build:
-	@rm -f ${WRKSRC}/src/Compilers/CSharp/Portable/Utilities/IVsSQM.cs
-	@rm -f ${WRKSRC}/src/Compilers/CSharp/Portable/Utilities/SqmServiceProvider.cs
-	@rm -f ${WRKSRC}/src/Compilers/CSharp/Portable/Lowering/TempHelpers.cs
-	@rm -f ${WRKSRC}/src/Compilers/CSharp/Portable/Compiler/Compiler.cs
-	@rm -f ${WRKSRC}/src/Compilers/CSharp/Portable/FlowAnalysis/AbstractFlowPass.AbstractLocalState.cs
-	@rm -f ${WRKSRC}/src/Compilers/CSharp/Portable/Lowering/StateMachineRewriter/StateMachineHoistedLocalSymbol.cs
-	@mkdir -p ${STAGEDIR}
-	@mkdir -p ${STAGEDIR}/usr
-	@mkdir -p ${STAGEDIR}${PREFIX}
-	@mkdir -p ${STAGEDIR}${PREFIX}/lib
-	@mkdir -p ${STAGEDIR}${PREFIX}/lib/dotnet
-	@mkdir -p ${STAGEDIR}${PREFIX}/libdata
-	@mkdir -p ${STAGEDIR}${PREFIX}/libdata/pkgconfig
-	@mkdir -p ${WRKSRC}/bin
-	@mkdir -p ${WRKSRC}/bin/Release
-	@cd ${WRKSRC}/src/Compilers/CSharp/Portable && resgen /useSourcePath /compile CSharpResources.resx,${PORTNAME}.CSharpResources.resources
-	@cd ${WRKSRC}/src/Compilers/CSharp/Portable && ${LOCALBASE}/bin/roslyn.boundtreegenerator CSharp BoundTree/BoundNodes.xml BoundTree/BoundNodes.Generated.cs
-	@cd ${WRKSRC}/src/Compilers/CSharp/Portable && ${LOCALBASE}/bin/roslyn.csharpsyntaxgenerator Syntax/Syntax.xml Syntax/Syntax.xml.Generated.cs
-	@cd ${WRKSRC}/src/Compilers/CSharp/Portable && ${LOCALBASE}/bin/roslyn.csharperrorfactsgenerator Errors/ErrorCode.cs Errors/ErrorFacts.Generated.cs
-	@cd ${WRKSRC} && ${FIND} src/Compilers/CSharp/Portable -name "*.cs" | ${XARGS} ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ -unsafe+ \
-			-keyfile:${PATCHDIR}/mono.snk \
-			-out:bin/Release/${PORTNAME}.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Concurrent.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Tools.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.Expressions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.Uri.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Immutable.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Threading.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.ReaderWriter.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.XDocument.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.XmlSerializer.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.CodeAnalysis.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Reflection.Metadata.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Threading.Tasks.Parallel.dll \
-			-resource:src/Compilers/CSharp/Portable/${PORTNAME}.CSharpResources.resources \
-			-target:library \
-			-warn:4 \
-			-define:COMPILERCORE \
-			src/Compilers/CSharp/CSharpAnalyzerDriver/CSharpDeclarationComputer.cs
+post-patch:
+	@${RM} ${WRKSRC}/src/Compilers/CSharp/Portable/Utilities/IVsSQM.cs
+	@${RM} ${WRKSRC}/src/Compilers/CSharp/Portable/Utilities/SqmServiceProvider.cs
+	@${RM} ${WRKSRC}/src/Compilers/CSharp/Portable/Lowering/TempHelpers.cs
+	@${RM} ${WRKSRC}/src/Compilers/CSharp/Portable/Compiler/Compiler.cs
+	@${RM} ${WRKSRC}/src/Compilers/CSharp/Portable/FlowAnalysis/AbstractFlowPass.AbstractLocalState.cs
+	@${RM} ${WRKSRC}/src/Compilers/CSharp/Portable/Lowering/StateMachineRewriter/StateMachineHoistedLocalSymbol.cs
+	@${RM} ${WRKSRC}/src/Compilers/CSharp/Portable/Syntax/SyntaxNodeFacts.cs
 
-do-install:
-	@${INSTALL_DATA} ${WRKSRC}/bin/Release/${PORTNAME}.dll ${STAGEDIR}${PREFIX}/lib/dotnet/${PORTNAME}.dll
-	@echo "Name:	${PORTNAME}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Version: ${PORTVERSION}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Description:  .NET Assembly" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Concurrent.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Tools.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.Expressions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.Uri.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Immutable.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Threading.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.ReaderWriter.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XDocument.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XmlSerializer.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.CodeAnalysis.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Reflection.Metadata.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Threading.Tasks.Parallel.dll
 
-.include <bsd.port.mk>
+DOTNET_RESOURCES+=	${DOTNET_RES}:src/Compilers/CSharp/Portable/${PORTNAME}.CSharpResources.resources
+
+DOTNET_DEFINES+=	-define:COMPILERCORE \
+			-define:SRM
+
+DOTNET_FILES+=		src/Compilers/CSharp/CSharpAnalyzerDriver/CSharpDeclarationComputer.cs \
+			src/Compilers/Core/Portable/Symbols/TypeCompareKind.cs
+
+.include <../../dotnet/coreclr/Makefile.common>

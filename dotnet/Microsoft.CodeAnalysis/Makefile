@@ -3,25 +3,16 @@
 
 PORTNAME=	Microsoft.CodeAnalysis
 PORTVERSION=	1.0.0.0
-CATEGORIES=	dotnet devel
-MAINTAINER=	brunolauze@msn.com
 
-VALID_CATEGORIES+=dotnet #COMMENT=        Open source implementation of .NET Development Framework
-
-BUILD_DEPENDS+= mono:${PORTSDIR}/lang/mono \
-		${NET_DEPENDS}
-
-RUN_DEPENDS+=	${NET_DEPENDS}
-
-NET_DEPENDS+=	coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
-		System.Private.CoreLib>=1.0:${PORTSDIR}/dotnet/System.Private.CoreLib \
-		System.Collections>=1.0:${PORTSDIR}/dotnet/System.Collections \
+NET_DEPENDS+=	System.Collections>=1.0:${PORTSDIR}/dotnet/System.Collections \
 		System.Collections.Concurrent>=1.0:${PORTSDIR}/dotnet/System.Collections.Concurrent \
 		System.Collections.Immutable>=1.0:${PORTSDIR}/dotnet/System.Collections.Immutable \
 		System.Collections.NonGeneric>=1.0:${PORTSDIR}/dotnet/System.Collections.NonGeneric \
 		System.Collections.Specialized>=1.0:${PORTSDIR}/dotnet/System.Collections.Specialized \
 		System.Diagnostics.Debug>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.Debug \
+		System.Diagnostics.StackTrace>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.StackTrace \
 		System.Diagnostics.Tools>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.Tools \
+		System.Diagnostics.FileVersionInfo>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.FileVersionInfo \
 		System.Data.Common>=1.0:${PORTSDIR}/dotnet/System.Data.Common \
 		System.IO>=1.0:${PORTSDIR}/dotnet/System.IO \
 		System.Linq>=1.0:${PORTSDIR}/dotnet/System.Linq \
@@ -31,86 +22,730 @@ NET_DEPENDS+=	coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
 		System.Runtime.InteropServices>=1.0:${PORTSDIR}/dotnet/System.Runtime.InteropServices \
 		System.Runtime.Numerics>=1.0:${PORTSDIR}/dotnet/System.Runtime.Numerics \
 		System.Reflection.Metadata>=1.0:${PORTSDIR}/dotnet/System.Reflection.Metadata \
+		System.Security.Cryptography.Primitives>=1.0:${PORTSDIR}/dotnet/System.Security.Cryptography.Primitives \
+		System.Security.Cryptography.Algorithms>=1.0:${PORTSDIR}/dotnet/System.Security.Cryptography.Algorithms \
 		System.Threading>=1.0:${PORTSDIR}/dotnet/System.Threading \
 		System.Threading.Tasks>=1.0:${PORTSDIR}/dotnet/System.Threading.Tasks \
 		System.Threading.Tasks.Extensions>=1.0:${PORTSDIR}/dotnet/System.Threading.Tasks.Extensions \
 		System.Xml.ReaderWriter>=1.0:${PORTSDIR}/dotnet/System.Xml.ReaderWriter \
 		System.Xml.XDocument>=1.0:${PORTSDIR}/dotnet/System.Xml.XDocument \
+		System.Xml.XPath.XDocument>=1.0:${PORTSDIR}/dotnet/System.Xml.XPath.XDocument \
 		System.Xml.XmlDocument>=1.0:${PORTSDIR}/dotnet/System.Xml.XmlDocument \
 		System.Xml.XmlSerializer>=1.0:${PORTSDIR}/dotnet/System.Xml.XmlSerializer
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	dotnet
 GH_PROJECT=	roslyn
+GH_TAGNAME=	master
 
-USES=           dotnet
+DOTNET_SOURCE_PATH=${WRKSRC}/src/Compilers/Core/Portable
+DOTNET_KEYFILE=	${PATCHDIR}/mono.snk
+DOTNET_UNSAFE=  yes
+DOTNET_XARGS=		
+DOTNET_RESOURCE_COMMAND=@cd ${WRKSRC}/src/Compilers/Core/Portable && ${DOTNET_RESGEN} CodeAnalysisResources.resx,${PORTNAME}.CodeAnalysisResources.resources && cd ${WRKSRC}/src/Workspaces/Core/Portable && ${DOTNET_RESGEN} WorkspacesResources.resx,${PORTNAME}.WorkspacesResources.resources
 
-configure:
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Extensions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.InteropServices.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Numerics.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Concurrent.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Immutable.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.NonGeneric.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Specialized.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Tools.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.FileVersionInfo.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Data.Common.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.Uri.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.ReaderWriter.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XDocument.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XPath.XDocument.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XmlDocument.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Reflection.Metadata.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Threading.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Threading.Tasks.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Threading.Tasks.Extensions.dll
 
-do-configure:
+DOTNET_RESOURCES+=	${DOTNET_RES}:${WRKSRC}/src/Compilers/Core/Portable/${PORTNAME}.CodeAnalysisResources.resources \
+			${DOTNET_RES}:${WRKSRC}/src/Workspaces/Core/Portable/${PORTNAME}.WorkspacesResources.resources
 
-build:
-	@mkdir -p ${STAGEDIR}
-	@mkdir -p ${STAGEDIR}/usr
-	@mkdir -p ${STAGEDIR}${PREFIX}
-	@mkdir -p ${STAGEDIR}${PREFIX}/lib
-	@mkdir -p ${STAGEDIR}${PREFIX}/lib/dotnet
-	@mkdir -p ${STAGEDIR}${PREFIX}/libdata
-	@mkdir -p ${STAGEDIR}${PREFIX}/libdata/pkgconfig
-	@mkdir -p ${WRKSRC}/bin
-	@mkdir -p ${WRKSRC}/bin/Release
-	@${RM} ${WRKSRC}/src/Compilers/Core/Portable/System/Reflection/Metadata/ILOpCode.cs
-	@cd ${WRKSRC}/src/Compilers/Core/Portable && resgen /useSourcePath /compile CodeAnalysisResources.resx,${PORTNAME}.CodeAnalysisResources.resources
-	@cd ${WRKSRC}/src/Workspaces/Core/Portable && resgen /useSourcePath /compile WorkspacesResources.resx,${PORTNAME}.WorkspacesResources.resources
-	@cd ${WRKSRC} && ${FIND} src/Compilers/Core/Portable -name "*.cs" | ${XARGS} ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ -unsafe+ \
-			-keyfile:${PATCHDIR}/mono.snk \
-			-out:bin/Release/${PORTNAME}.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.Extensions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.InteropServices.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.Numerics.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Concurrent.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Immutable.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.NonGeneric.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Specialized.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Tools.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Data.Common.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.IO.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.Uri.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.ReaderWriter.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.XDocument.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.XmlDocument.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Reflection.Metadata.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Threading.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Threading.Tasks.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Threading.Tasks.Extensions.dll \
-			-resource:src/Compilers/Core/Portable/${PORTNAME}.CodeAnalysisResources.resources \
-			-resource:src/Workspaces/Core/Portable/${PORTNAME}.WorkspacesResources.resources \
-			-define:COMPILERCORE \
-			-define:SRM \
-			-target:library \
-			-warn:4 \
-			src/Compilers/Shared/CoreClrShim.cs \
+DOTNET_DEFINES+=	-define:COMPILERCORE \
+			-define:SRM
+
+DOTNET_FILES+=		${DOTNET_FILES_SHARED} \
+			${WRKSRC}/src/Compilers/Core/Portable/AssemblyInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/ItemTokenMap.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/GlobalSuppressions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/IncrementalHash.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/ExportedType.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/AdditionalTextFile.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/AssemblyUtilities.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Binding/AbstractLookupSymbolsInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CaseInsensitiveComparison.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/DynamicAnalysisMethodBodyData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/ILEmitStyle.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalysisResult.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalyzerAssemblyLoader.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/FileSystem/CompilerPathUtilities.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/AssemblyIdentityUtils.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/EmptyComparer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/StringOrdinalComparer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReference/AssemblyIdentityMap.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/OperationVisitor.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/OperationWalker.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/ScriptCompilationInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/SyntaxTreeValueProvider.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/SourceTextValueProvider.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/CompilationAnalysisValueProviderFactory.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/CompilationAnalysisValueProvider.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalyzerDriver.GeneratedCodeUtilities.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalyzerDriver.CompilationData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalysisContextInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalysisValueProvider.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/SuppressMessageInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/SuppressionInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/JsonWriter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/IncrementalHashExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SetWithInsertionOrder.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/StackGuard.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/StreamExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/NativeResourceWriter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/MetadataWriter.DynamicAnalysis.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/SourceSpan.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/RealParser.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/ReferenceManager/MergedAliases.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/StrongName/CryptoBlobParser.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/ISourceAssemblySymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/IAssemblySymbolInternal.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxTreeComparer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/ICompilationUnitSyntax.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/ISkippedTokensTriviaSyntax.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/LargeTextWriter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/SourceTextComparer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/SourceTextWriter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/StringTextWriter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/UnicodeCharacterUtilities.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeAnalysisResources.Designer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeAnalysisResourcesLocalizableErrorArgument.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/ArrayMembers.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/BasicBlock.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/ClosureDebugInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/CompilationTestData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/DebugDocumentProvider.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/EmitState.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/ILBuilder.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/ILBuilderConversions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/ILBuilderEmit.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/ILOpCodeExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/ITokenDeferral.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/LabelInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/LambdaDebugInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/LocalConstantDefinition.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/LocalDefinition.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/LocalOrParameter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/LocalScopeManager.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/LocalSlotDebugInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/LocalSlotManager.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/MetadataConstant.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/MetadataCreateArray.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/MetadataNamedArgument.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/MetadataTypeOf.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/MethodBody.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/DebugId.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/PermissionSetAttribute.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/PrivateImplementationDetails.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/RawSequencePoint.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/ReferenceDependencyWalker.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/ScopeType.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/SequencePointList.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/SwitchIntegralJumpTableEmitter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/SwitchIntegralJumpTableEmitter.SwitchBucket.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/SwitchStringJumpTableEmitter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/SynthesizedLocalOrdinalsDispenser.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/TokenMap.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/VariableSlotAllocator.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/Win32Res.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/ArrayBuilderExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/ArrayElement.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/BitVector.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/Boxes.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/ByteSequenceComparer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/CachingDictionary.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/CachingFactory.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/ConcurrentCache.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/ConsListExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/EnumerableExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/Grouping.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/HashSetExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/IdentifierCollection.Collection.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/IdentifierCollection.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/ImmutableArrayExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/ImmutableMemoryStream.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/OrderedSet.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/StaticCast.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CommandLine/CommandLineAnalyzerReference.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CommandLine/CommandLineReference.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CommandLine/CommandLineSourceFile.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CommandLine/CommonCommandLineArguments.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CommandLine/CommonCommandLineParser.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CommandLine/CommonCompiler.CompilerEmitStreamProvider.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CommandLine/CommonCompiler.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CommandLine/CommonCompiler.ExistingReferencesResolver.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CommandLine/CommonCompiler.LoggingMetadataFileReferenceResolver.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CommandLine/CommonCompiler.LoggingSourceFileResolver.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CommandLine/CommonCompiler.LoggingStrongNameProvider.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CommandLine/CommonCompiler.LoggingXmlFileResolver.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CommandLine/ErrorLogger.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CommandLine/TouchedFileLogger.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation.EmitStreamProvider.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/LoadDirective.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/CommonSyntaxAndDeclarationManager.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/SymbolFilter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalysisResultBuilder.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalysisScope.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalysisState.AnalyzerStateData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalysisState.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalysisState.PerAnalyzerState.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalysisState.StateKind.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalysisState.SyntaxReferenceAnalyzerStateData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalyzerTelemetry.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalyzerActionCounts.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalyzerExecutor.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalyzerManager.AnalyzerAndOptions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalyzerManager.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/CompilationCompletedEvent.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/CompilationEvent.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/CompilationStartedEvent.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/CompilationUnitCompletedEvent.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/CompilationWithAnalyzersOptions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/DiagnosticAnalysisContextHelpers.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/DiagnosticAnalyzerAction.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/DiagnosticQueue.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/DiagnosticStartAnalysisScope.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/SymbolDeclaredCompilationEvent.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/CompilerOptionParseUtilities.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ImmutableArrayInterop.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ReflectionUtilities.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SemaphoreSlimExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CorLightup.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Desktop/AssemblyPortabilityPolicy.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Desktop/AssemblyVersion.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Desktop/DesktopAssemblyIdentityComparer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Desktop/DesktopAssemblyIdentityComparer.Fx.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalyzerFileReference.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalyzerLoadFailureEventArgs.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/StrongName/DesktopStrongNameProvider.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/CompilerDiagnosticAnalyzer.CompilationAnalyzer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/CompilerDiagnosticAnalyzer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/IAnalyzerAssemblyLoader.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/LocalizableResourceString.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/LocalizableResourceString.FixedLocalizableString.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/LocalizableString.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/DebugInformationFormat.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/EditAndContinue/AddedOrChangedMethodInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/EditAndContinue/EncHoistedLocalInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/EditAndContinue/EncHoistedLocalMetadata.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/EmitOptions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/EditAndContinue/EncVariableSlotAllocator.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/SemanticEditKind.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/EncodedStringText.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/FileKey.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/FileSystemExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Interop/IClrMetaHost.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Interop/IClrRuntimeInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Interop/IClrStrongName.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalImplementationOnlyAttribute.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/EditAndContinueMethodDebugInformation.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DocumentationCommentId.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/EditAndContinue/SymbolMatcher.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/FailFast.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/InterlockedOperations.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/IReadOnlySet.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/KeyedStack.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/OrderPreservingMultiDictionary.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/SmallConcurrentSetOfInts.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/SmallDictionary.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Collections/UnionCollection.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/CandidateReason.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/Compilation.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/CompilationOptions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/CompilationStage.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/ControlFlowAnalysis.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/DataFlowAnalysis.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/EmitResult.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/Expression.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/Extensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/IExpression.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/IOperation.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/IStatement.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/OperationExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/OptimizationLevel.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/ParseOptions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/Platform.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/PreprocessingSymbolInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/SemanticModel.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/SourceReferenceResolver.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/SpeculativeBindingOption.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/Statement.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/SubsystemVersion.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/SymbolInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/TypeInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/XmlReferenceResolver.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/ConstantValue.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/ConstantValueSpecialized.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CryptographicHashProvider.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CvtRes.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AdditionalText.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalyzerDriver.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalyzerImageReference.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalyzerOptions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AnalyzerReference.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/CompilationWithAnalyzers.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/DiagnosticAnalyzerExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/UnresolvedAnalyzerReference.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/CommonDiagnosticComparer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/CommonMessageProvider.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/Diagnostic.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/WellKnownDiagnosticTags.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/Diagnostic_SimpleDiagnostic.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/DiagnosticAnalysisContext.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/DiagnosticAnalyzer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/DiagnosticBag.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/DiagnosticDescriptor.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/DiagnosticFormatter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/DiagnosticInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/DiagnosticSeverity.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/DiagnosticWithInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/FileLinePositionSpan.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/ExternalFileLocation.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/IMessageSerializable.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/Location.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/LocationKind.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/MetadataLocation.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/NoLocation.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/ReportDiagnostic.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/SourceLocation.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Diagnostic/XmlLocation.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/AsyncQueue.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/DiagnosticAnalyzerAttribute.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/SuppressMessageAttributeState.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DiagnosticAnalyzer/SuppressMessageAttributeState.TargetSymbolResolver.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DocumentationComments/DocumentationCommentIncludeCache.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DocumentationComments/DocumentationProvider.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DocumentationComments/DocumentationProvider.NullDocumentationProvider.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DocumentationComments/XmlDocumentationCommentTextReader.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DocumentationComments/XmlDocumentationCommentTextReader.XmlStream.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/DocumentationMode.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/AnonymousTypeKey.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/AnonymousTypeValue.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Compilation/CommonModuleCompilationState.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/Context.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/EditAndContinue/DefinitionMap.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/EditAndContinue/DeltaMetadataWriter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/EditAndContinue/EmitBaseline.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/EditAndContinue/EmitDifferenceResult.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/EditAndContinue/EncLocalInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/EditAndContinue/IPEDeltaAssemblyBuilder.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/EditAndContinue/SymbolChange.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/EditAndContinue/SymbolChanges.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/ErrorType.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/ModulePropertiesForSerialization.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/NoPia/CommonEmbeddedEvent.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/NoPia/CommonEmbeddedField.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/NoPia/CommonEmbeddedMember.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/NoPia/CommonEmbeddedMethod.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/NoPia/CommonEmbeddedParameter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/NoPia/CommonEmbeddedProperty.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/NoPia/CommonEmbeddedType.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/NoPia/CommonEmbeddedTypeParameter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/NoPia/EmbeddedTypesManager.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/NoPia/VtblGap.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/CommonPEModuleBuilder.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/SemanticEdit.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/EnumConstantHelper.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ArrayExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/BitArithmeticUtilities.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/FatalError.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ConcurrentDictionaryExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ConcurrentLruCache.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ConcurrentSet.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ConsList\`1.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/DecimalUtilities.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/DocumentationCommentXmlNames.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/EnumerableExtensions.ComparisonComparer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/EnumerableExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/EnumField.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/EnumUtilties.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ExceptionUtilities.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/FileNameUtilities.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/HashAlgorithms.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/Hash.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ImmutableArrayExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ImmutableListExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ImmutableSetWithInsertionOrder\`1.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ISetExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/KeyValuePair.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/MultiDictionary.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/OneOrMany.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ReaderWriterLockSlimExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ReadOnlyUnmanagedMemoryStream.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ReferenceEqualityComparer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SpecializedCollections.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SpecializedCollections.Empty.Array.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SpecializedCollections.Empty.Collection.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SpecializedCollections.Empty.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SpecializedCollections.Empty.Dictionary.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SpecializedCollections.Empty.Enumerable.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SpecializedCollections.Empty.Enumerator.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SpecializedCollections.Empty.Enumerator\`1.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SpecializedCollections.Empty.List.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SpecializedCollections.Empty.Set.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SpecializedCollections.ReadOnly.Collection.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SpecializedCollections.ReadOnly.Enumerable\`1.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SpecializedCollections.ReadOnly.Enumerable\`2.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SpecializedCollections.ReadOnly.Set.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SpecializedCollections.Singleton.Collection\`1.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SpecializedCollections.Singleton.Enumerator\`1.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/StringExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/StringTable.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/SuppressUnmanagedCodeSecurityAttribute.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/TextChangeRangeExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/TextKeyedCache.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ThreadSafeFlagOperations.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ThreeState.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/UICultureUtilities.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ValueTuple.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ValueTuple\`2.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ValueTuple\`3.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/WeakList.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/WeakReferenceExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/XmlUtilities.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Interop/ClrStrongName.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MemberDescriptor.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReader/EmbeddedResource.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReader/LocalSlotConstraints.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReader/MetadataDecoder.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReader/MetadataHelpers.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReader/MetadataImportOptions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReader/MetadataReaderExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReader/MetadataTypeCodeExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReader/MetadataTypeName.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReader/MetadataTypeName.Key.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReader/ModuleExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReader/PEAssembly.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReader/PEModule.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReader/SymbolFactory.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReader/TypeAttributesExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReader/TypeNameDecoder.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReader/UnsupportedSignatureContent.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReference/AssemblyIdentity.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReference/AssemblyIdentity.DisplayName.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReference/AssemblyIdentityComparer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReference/AssemblyIdentityExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReference/AssemblyIdentityParts.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReference/AssemblyMetadata.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReference/CompilationReference.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReference/Metadata.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReference/MetadataImageKind.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReference/MetadataImageReference.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReference/MetadataReference.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReference/MetadataReferenceProperties.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReference/MetadataReferenceResolver.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReference/ModuleMetadata.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReference/PortableExecutableReference.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReference/ReferenceDirective.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/MetadataReference/UnresolvedMetadataReference.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/NativePdbWriter/ComMemoryStream.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/NativePdbWriter/IUnsafeComStream.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/FileSystem/PathKind.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/FileSystem/PathUtilities.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/FileSystem/FileUtilities.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/FileSystem/RelativePathResolver.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/ITypeReferenceExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/MetadataWriter.PortablePdb.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/NoPiaReferenceIndexer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/PooledBlobBuilder.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/ReferenceIndexerBase.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/TypeNameSerializer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/StateMachineHoistedLocalScope.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/MetadataWriter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PortableShim.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/RuleSet/InvalidRuleSetException.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/RuleSet/RuleSet.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/RuleSet/RuleSetInclude.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/RuleSet/RuleSetProcessor.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SourceFileResolver.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/ObjectDisplayExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/ObjectDisplayOptions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Optional.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/OutputKind.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/Constants.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/Core.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/CustomDebugInfoWriter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/DebugSourceDocument.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/ExceptionHandlerRegion.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/Expressions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/AssemblyReferenceAlias.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/FullMetadataWriter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/ICustomAttribute.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/IFileReference.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/InheritedTypeParameter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/InstructionOperandTypes.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/NativePdbWriter/ISymUnmanagedWriter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/NativePdbWriter/ISymUnmanagedAsyncMethodPropertiesWriter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/LocalScope.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/ManagedResource.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/MemberRefComparer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/Members.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/MetadataVisitor.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/MethodSpecComparer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/Miscellaneous.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/ModifiedTypeReference.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/IImportScope.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/NativePdbWriter/PdbMetadataWrapper.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/NativePdbWriter/PdbWriter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/PeWriter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/ReferenceIndexer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/ReturnValueParameter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/RootModuleType.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/SequencePoint.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/TypeLibTypeFlags.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/Types.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/TypeSpecComparer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/Units.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/UsedNamespaceOrType.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PrimitiveTypeCodeExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/ReferenceManager/AssemblyData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/ReferenceManager/AssemblyDataForAssemblyBeingBuilt.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/ReferenceManager/AssemblyReferenceBinding.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/ReferenceManager/AssemblyReferenceCandidate.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/ReferenceManager/BoundInputAssembly.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/ReferenceManager/CommonReferenceManager.Binding.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/ReferenceManager/CommonReferenceManager.Resolution.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/ReferenceManager/CommonReferenceManager.State.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/ReferenceManager/Compilation_MetadataCache.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/ReferenceManager/ModuleReferences.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/ReferenceManager/UnifiedAssembly.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/ResourceDescription.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/ResourceException.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Serialization/ConcurrentRecordingObjectBinder.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Serialization/FixedObjectBinder.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Serialization/IObjectReadable.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Serialization/IObjectWritable.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Serialization/ObjectBinder.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Serialization/ObjectReader.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Serialization/ObjectReaderData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Serialization/ObjectReaderWriterBase.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Serialization/ObjectWriter.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Serialization/ObjectWriterData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Serialization/RecordingObjectBinder.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Serialization/SimpleRecordingObjectBinder.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SignatureComparer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SourceCodeKind.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SpecialMember.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SpecialMembers.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SpecialType.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SpecialTypeExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SpecialTypes.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/StrongName/StrongNameKeys.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/StrongName/StrongNameProvider.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SwitchConstantValueHelper.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/AbstractSymbolDisplayVisitor.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/AbstractSymbolDisplayVisitor_Minimal.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/FormattedSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/FormattedSymbolList.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/SymbolDisplayCompilerInternalOptions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/SymbolDisplayDelegateStyle.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/SymbolDisplayExtensionMethodStyle.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/SymbolDisplayExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/SymbolDisplayFormat.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/SymbolDisplayGenericsOptions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/SymbolDisplayGlobalNamespaceStyle.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/SymbolDisplayKindOptions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/SymbolDisplayLocalOptions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/SymbolDisplayMemberOptions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/SymbolDisplayMiscellaneousOptions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/SymbolDisplayParameterOptions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/SymbolDisplayPart.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/SymbolDisplayPartKind.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/SymbolDisplayPropertyStyle.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SymbolDisplay/SymbolDisplayTypeQualificationStyle.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Accessibility.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/AnonymousTypes/CommonAnonymousTypeManager.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/AttributeDescription.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/AttributeUsageInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/CommonAssemblyWellKnownAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/CommonAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/CommonAttributeDataComparer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/CommonEventEarlyWellKnownAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/CommonEventWellKnownAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/CommonFieldEarlyWellKnownAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/CommonFieldWellKnownAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/CommonMethodEarlyWellKnownAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/CommonMethodWellKnownAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/CommonModuleWellKnownAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/CommonParameterEarlyWellKnownAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/CommonParameterWellKnownAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/CommonPropertyEarlyWellKnownAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/CommonPropertyWellKnownAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/CommonReturnTypeWellKnownAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/CommonTypeEarlyWellKnownAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/CommonTypeWellKnownAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/CustomAttributesBag.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/DecodeWellKnownAttributeArguments.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/EarlyDecodeWellKnownAttributeArguments.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/EarlyWellKnownAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/IMarshalAsAttributeTarget.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/ISecurityAttributeTarget.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/MarshalAsAttributeDecoder.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/MarshalPseudoCustomAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/ObsoleteAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/SecurityWellKnownAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/Attributes/WellKnownAttributeData.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/CommonAttributeDataExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/CustomModifier.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/IAliasSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/IArrayTypeSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/IAssemblySymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/IDynamicTypeSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/IErrorTypeSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/IEventSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/IFieldSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/ILabelSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/ILocalSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/ILocalSymbolInternal.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/IMethodSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/IMethodSymbolInternal.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/IModuleSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/INamedTypeSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/INamespaceOrTypeSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/INamespaceSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/IParameterSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/IPointerTypeSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/IPreprocessingSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/IPropertySymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/IRangeVariableSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/ISymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/ISymbolExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/ISynthesizedMethodBodyImplementationSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/ITypeParameterSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/ITypeSymbol.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/LanguageNames.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/MethodKind.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/NamespaceKind.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/PlatformInvokeInformation.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/RefKind.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/SignatureOnlyLocalDefinition.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/SymbolKind.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/SymbolKindExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/SymbolVisitor.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/SymbolVisitor\`1.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/SynthesizedLocalKind.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/LocalDebugId.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/TypedConstant.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/TypedConstantKind.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/TypedConstantValue.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/TypeKind.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/TypeLayout.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/TypeParameterKind.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/VarianceKind.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/WellKnownMemberNames.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/AbstractSyntaxNavigator.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/AbstractWarningStateMap.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/AnnotationExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/ChildSyntaxList.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/ChildSyntaxList.Enumerator.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/ChildSyntaxList.Reversed.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/GreenNode.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/GreenNodeExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/IStructuredTriviaSyntax.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/LineDirectiveMap.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/LineDirectiveMap.LineMappingEntry.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/LineVisibility.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SeparatedSyntaxList.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SeparatedSyntaxList.Enumerator.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxAnnotation.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxDiffer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxList\`1.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxList\`1.Enumerator.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxNode.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxNode.Iterators.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxNodeExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxNodeExtensions_Tracking.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxNodeLocationComparer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxNodeOrToken.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxNodeOrTokenList.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxReference.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxRemoveOptions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxToken.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxTokenList.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxTokenList.Enumerator.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxTokenList.Reversed.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxTree.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxTreeExtensions.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxTrivia.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxTriviaList.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxTriviaList.Enumerator.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxTriviaList.Reversed.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxWalker.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxWalkerDepth.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/TranslationSyntaxReference.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/ChangedText.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/CompositeText.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/LargeText.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/LinePosition.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/LinePositionSpan.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/SourceHashAlgorithm.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/SourceText.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/SourceTextContainer.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/SourceTextStream.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/StringBuilderText.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/StringText.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/SubText.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/TextChange.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/TextChangeEventArgs.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/TextChangeRange.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/TextLine.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/TextLineCollection.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/TextSpan.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Text/TextUtilities.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/TreeDumper.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/VersionHelper.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/WellKnownMember.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/WellKnownMembers.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/WellKnownTypes.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/XmlFileResolver.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Xml/XmlCharType.cs
+
+DOTNET_FILES_SHARED+=	src/Compilers/Shared/CoreClrShim.cs \
 			src/Compilers/Shared/DesktopShim.cs \
-			src/Compilers/Core/SharedCollections/ObjectPool\`1.cs \
-			src/Compilers/Core/SharedCollections/ArrayBuilder.cs \
-			src/Compilers/Core/SharedCollections/PooledDictionary.cs \
-			src/Compilers/Core/SharedCollections/ArrayBuilder.Enumerator.cs \
-			src/Compilers/Core/SharedCollections/PooledHashSet.cs \
 			src/Compilers/Core/AnalyzerDriver/AnalyzerExceptionDescriptionBuilder.cs \
 			src/Compilers/Core/AnalyzerDriver/DeclarationComputer.cs \
 			src/Compilers/Core/AnalyzerDriver/DeclarationInfo.cs \
 			src/Workspaces/Core/Portable/WorkspacesResources.Designer.cs \
-			src/Workspaces/Core/Portable/Utilities/Contract.cs
+			src/Workspaces/Core/Portable/Utilities/Contract.cs \
+			src/Dependencies/PooledObjects/ObjectPool\`1.cs \
+			src/Dependencies/PooledObjects/PooledStringBuilder.cs \
+			src/Dependencies/PooledObjects/ArrayBuilder.Enumerator.cs \
+			src/Dependencies/PooledObjects/PooledHashSet.cs \
+			src/Dependencies/PooledObjects/PooledDictionary.cs \
+			src/Dependencies/PooledObjects/ArrayBuilder.cs \
+			src/Dependencies/CodeAnalysis.Metadata/CustomDebugInfoKind.cs \
+			src/Dependencies/CodeAnalysis.Metadata/StateMachineHoistedLocalScope.cs \
+			src/Dependencies/CodeAnalysis.Metadata/VBImportScopeKind.cs \
+			src/Dependencies/CodeAnalysis.Metadata/PortableCustomDebugInfoKinds.cs \
+			src/Dependencies/CodeAnalysis.Metadata/CustomDebugInfoConstants.cs \
+			src/Dependencies/CodeAnalysis.Metadata/CustomDebugInfoRecord.cs \
+			src/Dependencies/CodeAnalysis.Metadata/ImportTargetKind.cs \
+			src/Dependencies/CodeAnalysis.Metadata/CustomDebugInfoReader.cs \
+			src/Dependencies/CodeAnalysis.Metadata/DynamicLocalInfo.cs
 
-do-install:
-	@${INSTALL_DATA} ${WRKSRC}/bin/Release/${PORTNAME}.dll ${STAGEDIR}${PREFIX}/lib/dotnet/${PORTNAME}.dll
-	@echo "Name:	${PORTNAME}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Version: ${PORTVERSION}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Description:  .NET Assembly" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
+post-patch:
+	@${RM} ${WRKSRC}/src/Compilers/Core/Portable/System/Reflection/BlobWriter.cs
+	@${RM} ${WRKSRC}/src/Compilers/Core/Portable/System/Reflection/BlobBuilder.cs
+	@${RM} ${WRKSRC}/src/Compilers/Core/Portable/System/Reflection/Metadata/Ecma335/MetadataBuilder.Tables.cs
 
-.include <bsd.port.mk>
+.include <../../dotnet/coreclr/Makefile.common>

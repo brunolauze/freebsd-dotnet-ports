@@ -3,29 +3,12 @@
 
 PORTNAME=	System.Private.CoreLib
 PORTVERSION=	1.0.0.0
-CATEGORIES=	dotnet devel
-MAINTAINER=	brunolauze@msn.com
 
-VALID_CATEGORIES+=dotnet #COMMENT=        Open source implementation of .NET Development Framework
-
-BUILD_DEPENDS+= mono:${PORTSDIR}/lang/mono \
-		coreclr>=1.0:${PORTSDIR}/dotnet/coreclr
-
-RUN_DEPENDS+=	coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
-		System.Native>=1.0:${PORTSDIR}/dotnet/System.Native
-
-USE_GITHUB=	yes
-GH_ACCOUNT=	dotnet
-GH_PROJECT=	coreclr
-GH_TAGNAME=	master
-
-USES=           dotnet
-GNU_CONFIGURE=  yes
-USE_LDCONFIG=   yes
-
-configure:
-
-do-configure:
+USE_GITHUB=     yes
+GH_ACCOUNT=     dotnet
+GH_PROJECT=     coreclr
+DOTNET_SOURCE_PATH=     ${WRKSRC}/src/${PORTNAME}/src
+DOTNET_KEYFILE= ${PATCHDIR}/mono.snk
 
 build-next:
 	@mkdir -p ${STAGEDIR}
@@ -147,7 +130,9 @@ build-next:
 			-define:PLATFORM_UNIX \
 			-define:SIGNED
 
-build:
+build: do-build
+
+do-build:
 	@mkdir -p ${STAGEDIR}
 	@mkdir -p ${STAGEDIR}/usr
 	@mkdir -p ${STAGEDIR}${PREFIX}
@@ -157,12 +142,6 @@ build:
 	@mkdir -p ${STAGEDIR}${PREFIX}/libdata/pkgconfig
 	@mkdir -p ${WRKSRC}/bin
 	@mkdir -p ${WRKSRC}/bin/Release
-	@${CP} ${PATCHDIR}/${PORTNAME}.dll  ${WRKSRC}/bin/Release/${PORTNAME}.dll
+	@${CP} ${PATCHDIR}/${PORTNAME}.dll ${WRKSRC}/bin/Release/${PORTNAME}.dll
 
-do-install:
-	@${INSTALL_DATA} ${WRKSRC}/bin/Release/${PORTNAME}.dll ${STAGEDIR}${PREFIX}/lib/dotnet/${PORTNAME}.dll
-	@echo "Name:	${PORTNAME}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Version: ${PORTVERSION}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Description:  .NET Assembly" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-
-.include <bsd.port.mk>
+.include <../../dotnet/coreclr/Makefile.common>

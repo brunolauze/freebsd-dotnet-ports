@@ -3,19 +3,8 @@
 
 PORTNAME=	Roslyn.Compilers.CSharp.Internal.CSharpErrorFactsGenerator
 PORTVERSION=	1.0.0.0
-CATEGORIES=	dotnet devel
-MAINTAINER=	brunolauze@msn.com
 
-VALID_CATEGORIES+=dotnet #COMMENT=        Open source implementation of .NET Development Framework
-
-BUILD_DEPENDS+= mono:${PORTSDIR}/lang/mono \
-		${NET_DEPENDS}
-
-RUN_DEPENDS+=	${NET_DEPENDS}
-
-NET_DEPENDS+=	coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
-		System.Private.CoreLib>=1.0:${PORTSDIR}/dotnet/System.Private.CoreLib \
-		System.Console>=1.0:${PORTSDIR}/dotnet/System.Console \
+NET_DEPENDS+=	System.Console>=1.0:${PORTSDIR}/dotnet/System.Console \
 		System.IO.FileSystem>=1.0:${PORTSDIR}/dotnet/System.IO.FileSystem \
 		System.Linq>=1.0:${PORTSDIR}/dotnet/System.Linq \
 		System.Xml.ReaderWriter>=1.0:${PORTSDIR}/dotnet/System.Xml.ReaderWriter
@@ -24,39 +13,15 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	dotnet
 GH_PROJECT=	roslyn
 
-USES=           dotnet
+DOTNET_KEYFILE=	${PATCHDIR}/mono.snk
+DOTNET_TARGET=	exe
+DOTNET_SOURCE_PATH=	${WRKSRC}/src/Tools/Source/CompilerGeneratorTools/Source/CSharpErrorFactsGenerator
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Console.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.FileSystem.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.ReaderWriter.dll
 
-configure:
+DOTNET_OUTPUT=	CSharpErrorFactsGenerator
+DOTNET_BIN_PROGRAM=	roslyn.csharperrorfactsgenerator
 
-do-configure:
-
-build:
-	@mkdir -p ${STAGEDIR}
-	@mkdir -p ${STAGEDIR}/usr
-	@mkdir -p ${STAGEDIR}${PREFIX}
-	@mkdir -p ${STAGEDIR}${PREFIX}/bin
-	@mkdir -p ${STAGEDIR}${PREFIX}/lib
-	@mkdir -p ${STAGEDIR}${PREFIX}/lib/dotnet
-	@mkdir -p ${STAGEDIR}${PREFIX}/libdata
-	@mkdir -p ${STAGEDIR}${PREFIX}/libdata/pkgconfig
-	@mkdir -p ${WRKSRC}/bin
-	@mkdir -p ${WRKSRC}/bin/Release
-	@cd ${WRKSRC} && ${FIND} src/Tools/Source/CompilerGeneratorTools/Source/CSharpErrorFactsGenerator -name "*.cs" | ${XARGS} ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ -unsafe+ \
-			-keyfile:${PATCHDIR}/mono.snk \
-			-out:bin/Release/CSharpErrorFactsGenerator.exe \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Console.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.IO.FileSystem.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.ReaderWriter.dll \
-			-target:exe \
-			-warn:4
-
-do-install:
-	@${INSTALL_DATA} ${WRKSRC}/bin/Release/CSharpErrorFactsGenerator.exe ${STAGEDIR}${PREFIX}/lib/dotnet/CSharpErrorFactsGenerator.exe
-	@${INSTALL_SCRIPT} ${PATCHDIR}/roslyn.csharperrorfactsgenerator ${STAGEDIR}${PREFIX}/bin/roslyn.csharperrorfactsgenerator
-	@echo "Name:	${PORTNAME}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Version: ${PORTVERSION}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Description:  .NET Assembly" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-
-.include <bsd.port.mk>
+.include <../../dotnet/coreclr/Makefile.common>

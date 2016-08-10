@@ -1,5 +1,0 @@
-bin/wsmansvc
-lib/powershell/v1.0/WSManService.exe
-lib/powershell/v1.0/WSManService.exe.config
-lib/powershell/v1.0/powershell.pfx
-libdata/pkgconfig/WSManService.pc

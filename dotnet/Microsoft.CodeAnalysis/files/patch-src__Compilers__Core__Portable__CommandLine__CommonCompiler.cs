@@ -1,13 +1,11 @@
---- src/Compilers/Core/Portable/CommandLine/CommonCompiler.cs.orig	2016-01-20 15:57:23.243102000 -0500
-+++ src/Compilers/Core/Portable/CommandLine/CommonCompiler.cs	2016-01-20 15:59:25.356527000 -0500
-@@ -635,7 +635,9 @@
-                     if (sqm != null)
-                     {
-                         sqm.BeginSession(this.GetSqmAppID(), false, out sqmSession);
--                        sqm.SetGlobalSessionGuid(Arguments.SqmSessionGuid);
-+			var sqmSessionId = Arguments.SqmSessionGuid;
-+                        sqm.SetGlobalSessionGuid(ref sqmSessionId);
-+			Arguments.SqmSessionGuid = sqmSessionId;
+--- src/Compilers/Core/Portable/CommandLine/CommonCompiler.cs.orig	2016-07-26 18:22:28.000000000 -0400
++++ src/Compilers/Core/Portable/CommandLine/CommonCompiler.cs	2016-07-27 17:02:19.506676000 -0400
+@@ -179,7 +179,7 @@
+             }
+             else
+             {
+-                diagnosticInfo = new DiagnosticInfo(messageProvider, messageProvider.ERR_NoSourceFile, filePath, e.Message);
++                diagnosticInfo = new DiagnosticInfo(messageProvider, messageProvider.ERR_NoSourceFile, filePath, $"{e.Message}\n{e.StackTrace}\n{e.InnerException?.Message}{e.InnerException?.StackTrace}");
+             }
  
-                         // Build Version
-                         sqm.SetStringDatapoint(sqmSession, SqmServiceProvider.DATAID_SQM_BUILDVERSION, GetAssemblyFileVersion());
+             return diagnosticInfo;

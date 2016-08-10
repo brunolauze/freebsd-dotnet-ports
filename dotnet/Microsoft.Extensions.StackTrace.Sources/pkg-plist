@@ -1,0 +1,6 @@
+include/dotnet/Microsoft.Extensions.StackTrace.Sources/StackFrameInfo.cs
+include/dotnet/Microsoft.Extensions.StackTrace.Sources/PortablePdbReader.cs
+include/dotnet/Microsoft.Extensions.StackTrace.Sources/StackTraceHelper.cs
+include/dotnet/Microsoft.Extensions.StackTrace.Sources/ParameterDisplayInfo.cs
+include/dotnet/Microsoft.Extensions.StackTrace.Sources/MethodDisplayInfo.cs
+libdata/pkgconfig/Microsoft.Extensions.StackTrace.Sources.pc

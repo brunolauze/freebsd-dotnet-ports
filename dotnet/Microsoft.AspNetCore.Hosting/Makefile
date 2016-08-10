@@ -3,16 +3,10 @@
 
 PORTNAME=	Microsoft.AspNetCore.Hosting
 PORTVERSION=	1.0.0.0
-CATEGORIES=	dotnet devel
-MAINTAINER=	brunolauze@msn.com
 
-VALID_CATEGORIES+=dotnet #COMMENT=        Open source implementation of .NET Development Framework
-
-BUILD_DEPENDS+= mono:${PORTSDIR}/lang/mono \
-		${NET_DEPENDS} \
-		Microsoft.Extensions.TypeNameHelper.Sources>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.TypeNameHelper.Sources
-
-RUN_DEPENDS+=	${NET_DEPENDS}
+BUILD_DEPENDS+= Microsoft.Extensions.TypeNameHelper.Sources>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.TypeNameHelper.Sources \
+		Microsoft.Extensions.StackTrace.Sources>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.StackTrace.Sources \
+		Microsoft.Extensions.RuntimeEnvironment.Sources>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.RuntimeEnvironment.Sources
 
 NET_DEPENDS+=	Microsoft.Extensions.Primitives>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.Primitives \
 		Microsoft.AspNetCore.Http.Features>=1.0:${PORTSDIR}/dotnet/Microsoft.AspNetCore.Http.Features \
@@ -35,72 +29,56 @@ NET_DEPENDS+=	Microsoft.Extensions.Primitives>=1.0:${PORTSDIR}/dotnet/Microsoft.
 		Microsoft.Extensions.Options>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.Options \
 		Microsoft.Net.Http.Headers>=1.0:${PORTSDIR}/dotnet/Microsoft.Net.Http.Headers \
 		System.Console>=1.0:${PORTSDIR}/dotnet/System.Console \
+		System.Diagnostics.Debug>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.Debug \
+		System.Diagnostics.StackTrace>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.StackTrace \
 		System.IO.FileSystem>=1.0:${PORTSDIR}/dotnet/System.IO.FileSystem \
 		System.Text.Encodings.Web>=1.0:${PORTSDIR}/dotnet/System.Text.Encodings.Web \
-		System.Diagnostics.DiagnosticSource>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.DiagnosticSource
+		System.Diagnostics.DiagnosticSource>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.DiagnosticSource \
+		System.Runtime.InteropServices.RuntimeInformation>=1.0:${PORTSDIR}/dotnet/System.Runtime.InteropServices.RuntimeInformation
 
-USE_GITHUB=	yes
-GH_ACCOUNT=	aspnet
 GH_PROJECT=	Hosting
 
-USES=           dotnet
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Console.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.StackTrace.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.FileSystem.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Extensions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.InteropServices.RuntimeInformation.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Http.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Http.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Http.Extensions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Http.Features.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.FileProviders.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.FileProviders.Physical.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Configuration.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Configuration.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Configuration.CommandLine.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Configuration.EnvironmentVariables.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Configuration.Json.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.PlatformAbstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Logging.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Logging.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.ObjectPool.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Options.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.DependencyInjection.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.DependencyInjection.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Hosting.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Hosting.Server.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Net.Http.Headers.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Text.Encodings.Web.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.DiagnosticSource.dll
 
-configure:
+DOTNET_FILES+=		${LOCALBASE}/include/dotnet/Microsoft.Extensions.TypeNameHelper.Sources/TypeNameHelper.cs \
+			${LOCALBASE}/include/dotnet/Microsoft.Extensions.StackTrace.Sources/StackFrameInfo.cs \
+			${LOCALBASE}/include/dotnet/Microsoft.Extensions.StackTrace.Sources/PortablePdbReader.cs \
+			${LOCALBASE}/include/dotnet/Microsoft.Extensions.StackTrace.Sources/StackTraceHelper.cs \
+			${LOCALBASE}/include/dotnet/Microsoft.Extensions.StackTrace.Sources/ParameterDisplayInfo.cs \
+			${LOCALBASE}/include/dotnet/Microsoft.Extensions.StackTrace.Sources/MethodDisplayInfo.cs \
+			${LOCALBASE}/include/dotnet/Microsoft.Extensions.RuntimeEnvironment.Sources/RuntimeEnvironment.cs \
+			${LOCALBASE}/include/dotnet/Microsoft.Extensions.RuntimeEnvironment.Sources/Native/PlatformApis.cs \
+			${LOCALBASE}/include/dotnet/Microsoft.Extensions.RuntimeEnvironment.Sources/Native/NativeMethods.Windows.cs
 
-do-configure:
-
-build:
-	@mkdir -p ${STAGEDIR}
-	@mkdir -p ${STAGEDIR}/usr
-	@mkdir -p ${STAGEDIR}${PREFIX}
-	@mkdir -p ${STAGEDIR}${PREFIX}/lib
-	@mkdir -p ${STAGEDIR}${PREFIX}/lib/dotnet
-	@mkdir -p ${STAGEDIR}${PREFIX}/libdata
-	@mkdir -p ${STAGEDIR}${PREFIX}/libdata/pkgconfig
-	@mkdir -p ${WRKSRC}/bin
-	@mkdir -p ${WRKSRC}/bin/Release
-	@cd ${WRKSRC} && ${FIND} src/${PORTNAME} -name "*.cs" | ${XARGS} ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ -unsafe+ \
-			-keyfile:./tools/Key.snk \
-			-out:bin/Release/${PORTNAME}.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Console.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.IO.FileSystem.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.Extensions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Http.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Http.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Http.Extensions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Http.Features.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.FileProviders.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.FileProviders.Physical.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Configuration.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Configuration.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Configuration.CommandLine.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Configuration.EnvironmentVariables.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Configuration.Json.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.PlatformAbstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Logging.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Logging.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.ObjectPool.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Options.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.DependencyInjection.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.DependencyInjection.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Hosting.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Hosting.Server.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Net.Http.Headers.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Text.Encodings.Web.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.DiagnosticSource.dll \
-			-target:library \
-			-warn:4 \
-			${LOCALBASE}/include/dotnet/Microsoft.Extensions.TypeNameHelper.Sources/TypeNameHelper.cs
-
-do-install:
-	@${INSTALL_DATA} ${WRKSRC}/bin/Release/${PORTNAME}.dll ${STAGEDIR}${PREFIX}/lib/dotnet/${PORTNAME}.dll
-	@echo "Name:	${PORTNAME}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Version: ${PORTVERSION}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Description:  .NET Assembly" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-
-.include <bsd.port.mk>
+.include <../../dotnet/aspnet/Makefile.common>

@@ -1,12 +1,12 @@
---- /dev/null	2016-05-18 19:40:42.000000000 -0400
-+++ src/System.Reflection.Metadata/src/SR.cs	2016-05-18 19:42:03.080784000 -0400
-@@ -0,0 +1,349 @@
+--- /dev/null	2016-08-03 16:45:14.000000000 -0400
++++ src/System.Reflection.Metadata/src/SR.cs	2016-08-03 16:49:23.266092000 -0400
+@@ -0,0 +1,483 @@
 +using System.Resources;
 +using System.Runtime.CompilerServices;
 +
-+namespace System.Reflection.Metadata
++namespace FxResources.System.Reflection.Metadata
 +{
-+   public class Strings
++   public class SR
 +   {
 +
 +   }
@@ -17,7 +17,141 @@
 +{
 +    internal partial class SR
 +    {
-+        public static Type ResourceType { get { return typeof(System.Reflection.Metadata.Strings); } }
++        public static Type ResourceType { get { return typeof(FxResources.System.Reflection.Metadata.SR); } }
++
++	internal static string TooManyExceptionRegions
++	{
++		get { return GetResourceString("TooManyExceptionRegions", ""); }
++	}
++
++	internal static string DistanceBetweenInstructionAndLabelTooBig
++	{
++		get { return GetResourceString("DistanceBetweenInstructionAndLabelTooBig", ""); }
++	}
++
++	internal static string InvalidExceptionRegionBounds
++	{
++		get { return GetResourceString("InvalidExceptionRegionBounds", ""); }
++	}
++
++	internal static string MethodHasNoExceptionRegions
++	{
++		get { return GetResourceString("MethodHasNoExceptionRegions", ""); }
++	}
++
++
++	internal static string ControlFlowBuilderNotAvailable
++	{
++	    get
++	    {
++		return SR.GetResourceString("ControlFlowBuilderNotAvailable", null);
++	    }
++	}
++
++        internal static string LabelNotMarked
++        {
++            get
++            {
++                return SR.GetResourceString("LabelNotMarked", null);
++            }
++        }
++
++        internal static string ExpectedNonEmptyString
++        {
++            get
++            {
++                return SR.GetResourceString("ExpectedNonEmptyString", null);
++            }
++        }
++		
++        internal static string SizeMismatch
++        {
++            get
++            {
++                return SR.GetResourceString("SizeMismatch", null);
++            }
++        }		
++		
++        internal static string DataTooBig
++        {
++            get
++            {
++                return SR.GetResourceString("DataTooBig", null);
++            }
++        }
++		
++        internal static string UnexpectedEmbeddedPortablePdbDataSignature
++        {
++            get
++            {
++                return SR.GetResourceString("UnexpectedEmbeddedPortablePdbDataSignature", null);
++            }
++        }
++		
++        internal static string UnsupportedFormatVersion
++        {
++            get
++            {
++                return SR.GetResourceString("UnsupportedFormatVersion", null);
++            }
++        }
++		
++	internal static string UnexpectedArrayLength
++        {
++            get
++            {
++                return SR.GetResourceString("UnexpectedArrayLength", null);
++            }
++        }
++		
++	internal static string RowCountMustBeZero
++        {
++            get
++            {
++                return SR.GetResourceString("RowCountMustBeZero", null);
++            }
++        }
++		
++	internal static string RowCountOutOfRange
++        {
++            get
++            {
++                return SR.GetResourceString("RowCountOutOfRange", null);
++            }
++        }	
++		
++	internal static string ExpectedArrayOfSize
++        {
++            get
++            {
++                return SR.GetResourceString("ExpectedArrayOfSize", null);
++            }
++        }
++		
++	internal static string MetadataVersionTooLong
++        {
++            get
++            {
++                return SR.GetResourceString("MetadataVersionTooLong", null);
++            }
++        }	
++		
++	internal static string AssemblyAlreadyAdded
++        {
++            get
++            {
++                return SR.GetResourceString("AssemblyAlreadyAdded", null);
++            }
++        }
++		
++	internal static string ModuleAlreadyAdded
++        {
++            get
++            {
++                return SR.GetResourceString("ModuleAlreadyAdded", null);
++            }
++        }			
++
 +
 +	internal static string HashTooShort
 +        {

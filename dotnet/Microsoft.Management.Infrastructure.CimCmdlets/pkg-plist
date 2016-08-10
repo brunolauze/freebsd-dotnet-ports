@@ -1,6 +1,0 @@
-lib/powershell/v1.0/Modules/CimCmdlets/CimCmdlets.psd1
-lib/powershell/v1.0/Modules/CimCmdlets/CimCmdlets_fb6cc51d-c096-4b38-b78d-0fed6277096a_HelpInfo.xml
-lib/powershell/v1.0/Modules/CimCmdlets/en-US/about_CIMSession.help.txt
-lib/powershell/v1.0/Modules/CimCmdlets/en-US/Microsoft.Management.Infrastructure.CimCmdlets.dll-help.xml
-lib/dotnet/Microsoft.Management.Infrastructure.CimCmdlets.dll
-libdata/pkgconfig/Microsoft.Management.Infrastructure.CimCmdlets.pc

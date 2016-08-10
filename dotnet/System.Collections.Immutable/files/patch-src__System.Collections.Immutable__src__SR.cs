@@ -4,9 +4,9 @@
 +using System.Resources;
 +using System.Runtime.CompilerServices;
 +
-+namespace System.Collections.Immutable
++namespace FxResources.System.Collections.Immutable
 +{
-+   public class Strings
++   public class SR
 +   {
 +
 +   }
@@ -17,7 +17,7 @@
 +{
 +    internal partial class SR
 +    {
-+        public static Type ResourceType { get { return typeof(System.Collections.Immutable.Strings); } }
++        public static Type ResourceType { get { return typeof(FxResources.System.Collections.Immutable.SR); } }
 +
 +        public static string ArrayInitializedStateNotEqual { get { return GetResourceString(nameof(ArrayInitializedStateNotEqual), ""); } }
 +        public static string ArrayLengthsNotEqual { get { return GetResourceString(nameof(ArrayLengthsNotEqual), ""); } }

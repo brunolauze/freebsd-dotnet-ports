@@ -1,0 +1,3 @@
+bin/dotnet-mkres
+lib/dotnet/dotnet-mkres.exe
+libdata/pkgconfig/dotnet-mkres.pc

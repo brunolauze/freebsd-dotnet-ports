@@ -3,19 +3,8 @@
 
 PORTNAME=	System.Net.Security
 PORTVERSION=	1.0.0.0
-CATEGORIES=	dotnet devel
-MAINTAINER=	brunolauze@msn.com
 
-VALID_CATEGORIES+=dotnet #COMMENT=        Open source implementation of .NET Development Framework
-
-BUILD_DEPENDS+= mono:${PORTSDIR}/lang/mono \
-		${NET_DEPENDS}
-
-RUN_DEPENDS+=	${NET_DEPENDS}
-
-NET_DEPENDS+=	coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
-		System.Private.CoreLib>=1.0:${PORTSDIR}/dotnet/System.Private.CoreLib \
-		Microsoft.Win32.Primitives>=1.0:${PORTSDIR}/dotnet/Microsoft.Win32.Primitives \
+NET_DEPENDS+=	Microsoft.Win32.Primitives>=1.0:${PORTSDIR}/dotnet/Microsoft.Win32.Primitives \
 		System.Collections>=1.0:${PORTSDIR}/dotnet/System.Collections \
 		System.Collections.Concurrent>=1.0:${PORTSDIR}/dotnet/System.Collections.Concurrent \
 		System.Diagnostics.Debug>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.Debug \
@@ -29,33 +18,11 @@ NET_DEPENDS+=	coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
 		System.Security.Claims>=1.0:${PORTSDIR}/dotnet/System.Security.Claims \
 		System.Security.Principal>=1.0:${PORTSDIR}/dotnet/System.Security.Principal
 
-USE_GITHUB=	yes
-GH_ACCOUNT=	dotnet
-GH_PROJECT=	corefx
-
-USES=           dotnet
-
-configure:
-
-do-configure:
-
-build:
-	@mkdir -p ${STAGEDIR}
-	@mkdir -p ${STAGEDIR}/usr
-	@mkdir -p ${STAGEDIR}${PREFIX}
-	@mkdir -p ${STAGEDIR}${PREFIX}/lib
-	@mkdir -p ${STAGEDIR}${PREFIX}/lib/dotnet
-	@mkdir -p ${STAGEDIR}${PREFIX}/libdata
-	@mkdir -p ${STAGEDIR}${PREFIX}/libdata/pkgconfig
-	@mkdir -p ${WRKSRC}/bin
-	@mkdir -p ${WRKSRC}/bin/Release
+post-patch:
 	@${FIND} ${WRKSRC}/src/${PORTNAME}/src -name "*.Windows.cs" -delete
 	@${RM} ${WRKSRC}/src/${PORTNAME}/src/System/Net/SecurityContextTokenHandle.cs
-	@cd ${WRKSRC} && ${FIND} src/${PORTNAME}/src -name "*.cs" | ${XARGS} ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ -unsafe+ \
-			-keyfile:${PATCHDIR}/mono.snk \
-			-out:bin/Release/${PORTNAME}.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Win32.Primitives.dll \
+
+DOTNET_REFERENCES+=	-reference:${LOCALBASE}/lib/dotnet/Microsoft.Win32.Primitives.dll \
 			-reference:${LOCALBASE}/lib/dotnet/System.Collections.dll \
 			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Concurrent.dll \
 			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
@@ -68,11 +35,11 @@ build:
 			-reference:${LOCALBASE}/lib/dotnet/System.Security.Cryptography.Encoding.dll \
 			-reference:${LOCALBASE}/lib/dotnet/System.Security.Cryptography.OpenSsl.dll \
 			-reference:${LOCALBASE}/lib/dotnet/System.Security.Cryptography.X509Certificates.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.Claims.dll \
-			-target:library \
-			-define:NETSTANDARD1_3 \
-			-warn:4 \
-			${WRKSRC}/src/Common/src/System/Net/Shims/TraceSource.cs \
+			-reference:${LOCALBASE}/lib/dotnet/System.Security.Claims.dll
+
+DOTNET_DEFINES+=	-define:NETSTANDARD1_3
+
+DOTNET_FILES+=		${WRKSRC}/src/Common/src/System/Net/Shims/TraceSource.cs \
 			${WRKSRC}/src/Common/src/System/Net/Logging/LoggingHash.cs \
 			${WRKSRC}/src/Common/src/System/Net/Logging/GlobalLog.cs \
 			${WRKSRC}/src/Common/src/System/Net/Logging/EventSourceLogging.cs \
@@ -135,12 +102,7 @@ build:
 			${WRKSRC}/src/Common/src/Microsoft/Win32/SafeHandles/SafeInteriorHandle.cs \
 			${WRKSRC}/src/Common/src/Microsoft/Win32/SafeHandles/SafeBioHandle.Unix.cs \
 			${WRKSRC}/src/Common/src/Microsoft/Win32/SafeHandles/Asn1SafeHandles.Unix.cs \
-			${WRKSRC}/src/Common/src/System/Net/ContextAwareResult.Unix.cs
+			${WRKSRC}/src/Common/src/System/Net/ContextAwareResult.Unix.cs \
+			${WRKSRC}/src/Common/src/System/Net/Http/TlsCertificateExtensions.cs
 
-do-install:
-	@${INSTALL_DATA} ${WRKSRC}/bin/Release/${PORTNAME}.dll ${STAGEDIR}${PREFIX}/lib/dotnet/${PORTNAME}.dll
-	@echo "Name:	${PORTNAME}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Version: ${PORTVERSION}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Description:  .NET Assembly" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-
-.include <bsd.port.mk>
+.include <../../dotnet/coreclr/corefx.common>

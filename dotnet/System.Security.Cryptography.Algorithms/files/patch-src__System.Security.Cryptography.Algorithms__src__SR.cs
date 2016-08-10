@@ -1,6 +1,6 @@
---- /dev/null	2016-05-21 14:28:24.000000000 -0400
-+++ src/System.Security.Cryptography.Algorithms/src/SR.cs	2016-05-21 14:29:08.967029000 -0400
-@@ -0,0 +1,407 @@
+--- /dev/null	2016-05-28 11:25:55.000000000 -0400
++++ src/System.Security.Cryptography.Algorithms/src/SR.cs	2016-05-28 11:27:07.851827000 -0400
+@@ -0,0 +1,431 @@
 +using System;
 +using System.Resources;
 +
@@ -19,6 +19,30 @@
 +        private static ResourceManager s_resourceManager;
 +
 +        private const String s_resourcesName = "FxResources.System.Security.Cryptography.Algorithms.SR";
++
++	internal static string Argument_InvalidOidValue
++	{
++                get
++                {
++                        return SR.GetResourceString("Argument_InvalidOidValue", null);
++                }
++	}
++
++	internal static string Arg_CryptographyException
++	{
++		get
++		{
++			return SR.GetResourceString("Arg_CryptographyException", null);
++		}
++	}
++
++	internal static string Cryptography_Invalid_IA5String
++        {
++                get
++                {
++                        return SR.GetResourceString("Cryptography_Invalid_IA5String", null);
++                }
++        }
 +
 +	internal static string Cryptography_CurveNotSupported
 +	{
