@@ -1,10 +1,15 @@
 USE_GITHUB=		yes
-GH_ACCOUNT=		aspnet
-GH_TAGNAME=		dev
-DOTNET_SOURCE_PATH=	${WRKSRC}/src/${PORTNAME}
-DOTNET_KEYFILE=		${WRKSRC}/tools/Key.snk
-DOTNET_UNSAFE=		yes
-PORTREVISION=		1
+GH_ACCOUNT?=		aspnet
+GH_TAGNAME?=		dev
+DOTNET_SOURCE_PATH?=	${WRKSRC}/src/${PORTNAME}
+DOTNET_KEYFILE?=	${WRKSRC}/tools/Key.snk
+DOTNET_UNSAFE?=		yes
+PORTREVISION?=		1
 
+DOTNET_DEFINES+=	-define:DOTNET \
+			-define:CORECLR \
+			-define:NETSTANDARD1_3 \
+			-define:NETSTANDARD1_5 \
+			-define:NETSTANDARD1_6
 
 .include <../../dotnet/coreclr/Makefile.common>

@@ -41,10 +41,10 @@ build:
 	@cd ${WRKSRC} && ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ -unsafe+ \
 			-keyfile:${PATCHDIR}/mono.snk \
 			-out:bin/Release/hello.exe \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Console.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.CoreLib.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Console.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
 			-target:exe \
 			-warn:4 \
 			${WRKSRC}/demos/CoreClrConsoleApplications/HelloWorld/HelloWorld.cs

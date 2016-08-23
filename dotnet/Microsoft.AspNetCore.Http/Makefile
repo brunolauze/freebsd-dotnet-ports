@@ -47,8 +47,6 @@ DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Buffers.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Net.Http.Headers.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Text.Encodings.Web.dll
 
-DOTNET_DEFINES+=	-define:NETSTANDARD1_3
-
 .include <../../dotnet/aspnet/Makefile.common>
 
 

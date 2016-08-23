@@ -12,11 +12,11 @@ NET_DEPENDS+=	System.Collections.Immutable>=1.0:${PORTSDIR}/dotnet/System.Collec
 		System.Threading.Tasks>=1.0:${PORTSDIR}/dotnet/System.Threading.Tasks
 
 DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Immutable.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Tools.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.IO.FileSystem.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Reflection.Metadata.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Threading.Tasks.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Tools.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.FileSystem.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Reflection.Metadata.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Threading.Tasks.dll \
 
 
 post-patch:

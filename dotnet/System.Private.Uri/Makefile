@@ -8,7 +8,7 @@ NET_DEPENDS+=   System.IO.FileSystem>=1.0:${PORTSDIR}/dotnet/System.IO.FileSyste
 
 DOTNET_RESOURCE_COMMAND=@cd ${WRKSRC}/src/${PORTNAME}/src/Resources && ${DOTNET_RESGEN} Strings.resx,FxResources.${PORTNAME}.SR.resources
 
-DOTNET_REFERENCES+=     ${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.IO.FileSystem.dll
+DOTNET_REFERENCES+=     ${DOTNET_REF}:${DOTNET_PATH}/System.IO.FileSystem.dll
 
 DOTNET_RESOURCES+=      ${DOTNET_RES}:${WRKSRC}/src/${PORTNAME}/src/Resources/FxResources.${PORTNAME}.SR.resources \
 			${DOTNET_RES}:${WRKSRC}/src/${PORTNAME}/src/Resources/${PORTNAME}.rd.xml,${PORTNAME}.rd.xml

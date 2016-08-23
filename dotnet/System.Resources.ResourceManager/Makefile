@@ -42,7 +42,7 @@ build:
 	@cd ${WRKSRC} && ${FIND} src/${PORTNAME}/src -name "*.cs" | ${XARGS} ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ -unsafe+ \
 			-keyfile:${PATCHDIR}/mono.snk \
 			-out:bin/Release/${PORTNAME}.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.CoreLib.dll \
 			-resource:${WRKSRC}/src/${PORTNAME}/src/Resources/FxResources.${PORTNAME}.SR.resources \
 			-target:library \
 			-warn:4 \

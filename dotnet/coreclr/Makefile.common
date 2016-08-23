@@ -33,6 +33,9 @@ DOTNET_FILE_EXT?=exe
 DOTNET_FILE_EXT?=dll
 .endif
 
+
+.if !defined(DOTNET_NOT_DOTNET)
+
 .if !target(configure)
 configure: do-configure
 
@@ -86,6 +89,8 @@ do-install:
 	@echo "Description:  .NET Assembly" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${DOTNET_PACKAGE_NAME}.pc
 .endif
 
+.endif
+
 .if ${DOTNET_COMPILER} == mcs
 DOTNET_RES=		-resource
 DOTNET_REF=		-reference
@@ -130,15 +135,15 @@ DOTNET_FLAGS+=  /target:${DOTNET_TARGET}
 DOTNET_REFERENCES+=     ${DOTNET_REF}:${DOTNET_PATH}/System.Private.CoreLib.dll
 .endif
 
-.if ${PORTNAME} != coreclr
+.if ${PORTNAME} != coreclr && ${PORTNAME} != libpsl-native
 NET_DEPENDS+=		coreclr>=1.0:${PORTSDIR}/dotnet/coreclr
 .endif
 
-.if ${PORTNAME} != coreclr && ${PORTNAME} != System.Native
+.if ${PORTNAME} != coreclr && ${PORTNAME} != System.Native && ${PORTNAME} != libpsl-native
 NET_DEPENDS+=		System.Native>=1.0:${PORTSDIR}/dotnet/System.Native
 .endif
 
-.if ${PORTNAME} != coreclr && ${PORTNAME} != System.Native && ${PORTNAME} != System.Private.CoreLib
+.if ${PORTNAME} != coreclr && ${PORTNAME} != System.Native && ${PORTNAME} != libpsl-native && ${PORTNAME} != System.Private.CoreLib
 NET_DEPENDS+=		System.Private.CoreLib>=1.0:${PORTSDIR}/dotnet/System.Private.CoreLib
 .endif
 
@@ -154,5 +159,13 @@ VALID_CATEGORIES+=dotnet
 
 CATEGORIES=     dotnet devel
 MAINTAINER=     brunolauze@msn.com
+
+.if defined(PORTREVISION)
+DOTNET_LOG_PORTREV_SUFFIX=	_${PORTREVISION}
+.endif
+
+log:
+	tail -n 100 ${LOCALBASE}/poudriere/data/logs/bulk/latest-per-pkg/${PORTNAME}/${PORTVERSION}${DOTNET_LOG_PORTREV_SUFFIX}/default-default-default.log
+
 
 .include <bsd.port.mk>

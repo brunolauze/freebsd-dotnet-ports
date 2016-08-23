@@ -45,10 +45,10 @@ build:
 	@cd ${WRKSRC} && ${FIND} src/Utilities -name "*.cs" | ${XARGS} ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ -unsafe+ \
 			-keyfile:${PATCHDIR}/mono.snk \
 			-out:bin/Release/${PORTNAME}.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Reflection.Metadata.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Build.Framework.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.CoreLib.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Reflection.Metadata.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Build.Framework.dll \
 			-resource:src/Utilities/Microsoft.Build.Utilities.Strings.resources \
 			-define:FEATURE_SECURITY_PERMISSIONS \
                         -define:FEATURE_APPDOMAIN \

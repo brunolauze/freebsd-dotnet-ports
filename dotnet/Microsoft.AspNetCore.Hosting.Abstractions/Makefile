@@ -17,19 +17,19 @@ NET_DEPENDS+=	Microsoft.Extensions.Primitives>=1.0:${PORTSDIR}/dotnet/Microsoft.
 
 GH_PROJECT=	Hosting
 
-DOTNET_REFERENCES+=	-reference:${LOCALBASE}/lib/dotnet/System.Collections.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Http.Features.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Http.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Hosting.Server.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.DependencyInjection.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.FileProviders.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Configuration.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Logging.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Net.Http.Headers.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Text.Encodings.Web.dll
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Http.Features.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Http.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Hosting.Server.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.DependencyInjection.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.FileProviders.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Configuration.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Logging.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Net.Http.Headers.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Text.Encodings.Web.dll
 
 .include <../../dotnet/aspnet/Makefile.common>
 

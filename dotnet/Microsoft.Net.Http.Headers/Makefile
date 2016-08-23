@@ -9,8 +9,8 @@ NET_DEPENDS+=	System.Buffers>=1.0:${PORTSDIR}/dotnet/System.Buffers \
 
 GH_PROJECT=	HttpAbstractions
 
-DOTNET_REFERENCES+=	-reference:${LOCALBASE}/lib/dotnet/System.Buffers.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Buffers.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll
 
 .include <../../dotnet/aspnet/Makefile.common>
 

@@ -18,15 +18,15 @@ NET_DEPENDS+=	System.Collections>=1.0:${PORTSDIR}/dotnet/System.Collections \
 DOTNET_RESOURCE_COMMAND=cd ${WRKSRC}/src/${PORTNAME}/src && ${DOTNET_RESGEN} Strings.resx,${PORTNAME}.Strings.resources && \
 			cd ${WRKSRC}/src/Common/src/Microsoft/Internal && ${DOTNET_RESGEN} CommonStrings.resx,Microsoft.Internal.CommonStrings.resources
 
-DOTNET_REFERENCES+=	-reference:${LOCALBASE}/lib/dotnet/System.Composition.AttributedModel.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Contracts.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Tools.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.Expressions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Threading.dll
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Composition.AttributedModel.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Contracts.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Tools.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.Expressions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Threading.dll
 
 DOTNET_RESOURCES+=	${DOTNET_RES}:src/${PORTNAME}/src/${PORTNAME}.Strings.resources \
 			${DOTNET_RES}:src/Common/src/Microsoft/Internal/Microsoft.Internal.CommonStrings.resources

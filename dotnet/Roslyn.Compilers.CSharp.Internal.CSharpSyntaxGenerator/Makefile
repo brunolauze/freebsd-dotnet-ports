@@ -11,6 +11,7 @@ NET_DEPENDS+=	System.Collections>=1.0:${PORTSDIR}/dotnet/System.Collections \
 		System.IO.FileSystem>=1.0:${PORTSDIR}/dotnet/System.IO.FileSystem \
 		System.Linq>=1.0:${PORTSDIR}/dotnet/System.Linq \
 		System.Runtime>=1.0:${PORTSDIR}/dotnet/System.Runtime \
+		System.Text.RegularExpressions>=1.0:${PORTSDIR}/dotnet/System.Text.RegularExpressions \
 		System.Xml.ReaderWriter>=1.0:${PORTSDIR}/dotnet/System.Xml.ReaderWriter \
 		System.Xml.XmlDocument>=1.0:${PORTSDIR}/dotnet/System.Xml.XmlDocument \
 		System.Xml.XmlSerializer>=1.0:${PORTSDIR}/dotnet/System.Xml.XmlSerializer
@@ -31,6 +32,7 @@ DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.IO.FileSystem.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Text.RegularExpressions.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.ReaderWriter.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XmlDocument.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XmlSerializer.dll

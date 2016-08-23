@@ -42,14 +42,14 @@ build:
 	@cd ${WRKSRC} && ${FIND} src/${PORTNAME} -name "*.cs" | ${XARGS} ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ -unsafe+ \
 			-keyfile:${PATCHDIR}/mono.snk \
 			-out:bin/Release/${PORTNAME}.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Immutable.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Numerics.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.ReaderWriter.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.XDocument.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Reflection.Metadata.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.CoreLib.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Immutable.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Numerics.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.ReaderWriter.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XDocument.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Reflection.Metadata.dll \
 			-resource:src/Compilers/Core/Portable/${PORTNAME}.CodeAnalysisResources.resources \
 			-resource:src/Workspaces/Core/Portable/${PORTNAME}.WorkspacesResources.resources \
 			-define:COMPILERCORE \

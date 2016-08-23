@@ -10,7 +10,7 @@ NET_DEPENDS+=	System.ComponentModel>=1.0:${PORTSDIR}/dotnet/System.ComponentMode
 post-patch:
 	@${RM} ${WRKSRC}/src/${PORTNAME}/src/System/ComponentModel/ComponentModelExtensions.cs
 
-DOTNET_REFERENCES+=	-reference:${LOCALBASE}/lib/dotnet/System.ComponentModel.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.ComponentModel.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll
 
 .include <../../dotnet/coreclr/corefx.common>

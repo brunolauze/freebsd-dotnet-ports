@@ -22,6 +22,7 @@ DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
 
 DOTNET_RESOURCES+=	${DOTNET_RES}:${WRKSRC}/src/${PORTNAME}/src/Resources/FxResources.${PORTNAME}.SR.resources
 
-DOTNET_FILES+=		${WRKSRC}/src/Common/src/System/SR.cs
+DOTNET_FILES+=		${WRKSRC}/src/Common/src/System/SR.cs \
+			${WRKSRC}/src/Common/src/System/Numerics/Hashing/HashHelpers.cs
 
 .include <../../dotnet/coreclr/corefx.common>

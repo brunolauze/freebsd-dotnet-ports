@@ -4,6 +4,8 @@
 PORTNAME=	Microsoft.AspNetCore.WebUtilities
 PORTVERSION=	1.0.0.0
 
+BUILD_DEPENDS+= Microsoft.Extensions.WebEncoders.Sources>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.WebEncoders.Sources
+
 NET_DEPENDS+=   System.Diagnostics.Debug>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.Debug \
 		System.Data.Common>=1.0:${PORTSDIR}/dotnet/System.Data.Common \
 		System.IO>=1.0:${PORTSDIR}/dotnet/System.IO \
@@ -18,16 +20,26 @@ NET_DEPENDS+=   System.Diagnostics.Debug>=1.0:${PORTSDIR}/dotnet/System.Diagnost
 
 GH_PROJECT=	HttpAbstractions
 
-DOTNET_REFERENCES+=	-reference:${LOCALBASE}/lib/dotnet/System.Buffers.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Data.Common.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.IO.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.IO.FileSystem.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.Uri.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Net.Http.Headers.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Text.Encodings.Web.dll
+DOTNET_RESOURCE_COMMAND=cp ${LOCALBASE}/include/dotnet/Microsoft.Extensions.WebEncoders.Sources/EncoderResources.resx ${WRKSRC}/src/${PORTNAME}/EncoderResources.resx && \
+			cd ${WRKSRC}/src/${PORTNAME} && ${DOTNET_RESGEN} EncoderResources.resx,${PORTNAME}.EncoderResources.resources
+
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Buffers.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Data.Common.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.FileSystem.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.Uri.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Net.Http.Headers.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Text.Encodings.Web.dll
+
+DOTNET_DEFINES+=	-define:WebEncoders_In_WebUtilities
+
+DOTNET_RESOURCES+=      ${DOTNET_RES}:src/${PORTNAME}/${PORTNAME}.EncoderResources.resources
+
+DOTNET_FILES+=          ${LOCALBASE}/include/dotnet/Microsoft.Extensions.WebEncoders.Sources/WebEncoders.cs \
+			${LOCALBASE}/include/dotnet/Microsoft.Extensions.WebEncoders.Sources/Properties/EncoderResources.Designer.cs
 
 .include <../../dotnet/aspnet/Makefile.common>

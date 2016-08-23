@@ -1,0 +1,4 @@
+include/dotnet/Microsoft.Extensions.WebEncoders.Sources/WebEncoders.cs
+include/dotnet/Microsoft.Extensions.WebEncoders.Sources/Properties/EncoderResources.Designer.cs
+include/dotnet/Microsoft.Extensions.WebEncoders.Sources/EncoderResources.resx
+libdata/pkgconfig/Microsoft.Extensions.WebEncoders.Sources.pc

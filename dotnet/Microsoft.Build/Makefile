@@ -69,32 +69,32 @@ build:
 	@cd ${WRKSRC} && ${FIND} src/XMakeBuildEngine -name "*.cs" | ${XARGS} ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ -unsafe+ \
 			-keyfile:${PATCHDIR}/mono.snk \
 			-out:bin/Release/${PORTNAME}.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Collections.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Collections.Concurrent.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Collections.NonGeneric.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Collections.Specialized.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Console.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Diagnostics.FileVersionInfo.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Diagnostics.Process.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Diagnostics.TraceSource.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Runtime.Extensions.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Runtime.InteropServices.RuntimeInformation.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.IO.Compression.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.IO.FileSystem.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.IO.Pipes.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Private.Uri.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Xml.ReaderWriter.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Xml.XmlDocument.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Reflection.Metadata.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Security.Cryptography.X509Certificates \
-			-reference:${LOCALBASE}/lib/coreclr/System.Text.RegularExpressions.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Threading.dll \
-			-reference:${LOCALBASE}/lib/coreclr/System.Threading.Tasks.Dataflow.dll \
-			-reference:${LOCALBASE}/lib/coreclr/Microsoft.Build.Framework.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.CoreLib.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Concurrent.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.NonGeneric.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Specialized.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Console.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.FileVersionInfo.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Process.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.TraceSource.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Extensions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.InteropServices.RuntimeInformation.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.Compression.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.FileSystem.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.Pipes.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.Uri.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.ReaderWriter.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XmlDocument.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Reflection.Metadata.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.Cryptography.X509Certificates \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Text.RegularExpressions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Threading.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Threading.Tasks.Dataflow.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Build.Framework.dll \
 			-resource:src/XMakeBuildEngine/Resources/${PORTNAME}.Resources.Strings.resources \
 			-define:BUILD_ENGINE \
 			-define:FEATURE_SECURITY_PERMISSIONS \

@@ -33,28 +33,28 @@ GH_PROJECT=	Newtonsoft.Json
 DOTNET_SOURCE_PATH=${WRKSRC}/Src/${PORTNAME}
 DOTNET_KEYFILE=	Src/${PORTNAME}/Dynamic.snk
 
-DOTNET_REFERENCES+=	-reference:${LOCALBASE}/lib/dotnet/Microsoft.CSharp.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Concurrent.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.ComponentModel.TypeConverter.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Dynamic.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.Handles.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.IO.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.Expressions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.ObjectModel.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.Uri.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Reflection.Metadata.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.Extensions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.Numerics.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.Serialization.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Text.RegularExpressions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Threading.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.ReaderWriter.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.XDocument.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.XmlDocument.dll
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/Microsoft.CSharp.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Concurrent.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.ComponentModel.TypeConverter.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Dynamic.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Handles.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.Expressions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.ObjectModel.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.Uri.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Reflection.Metadata.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Extensions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Numerics.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Serialization.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Text.RegularExpressions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Threading.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.ReaderWriter.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XDocument.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XmlDocument.dll
 
 DOTNET_DEFINES+=	-define:DOTNET
 

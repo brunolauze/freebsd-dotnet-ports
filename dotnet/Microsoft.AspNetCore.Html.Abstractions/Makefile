@@ -14,8 +14,8 @@ NET_DEPENDS+=   System.Diagnostics.Debug>=1.0:${PORTSDIR}/dotnet/System.Diagnost
 
 GH_PROJECT=	HtmlAbstractions
 
-DOTNET_REFERENCES+=	-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Text.Encodings.Web.dll
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Text.Encodings.Web.dll
 
 .include <../../dotnet/aspnet/Makefile.common>
 

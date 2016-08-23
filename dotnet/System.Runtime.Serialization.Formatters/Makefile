@@ -47,13 +47,13 @@ build:
 	@cd ${WRKSRC} && ${FIND} src/${PORTNAME}/src -name "*.cs" | ${XARGS} ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ -unsafe+ \
 			-keyfile:${PATCHDIR}/mono.snk \
 			-out:bin/Release/${PORTNAME}.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.Extensions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.Numerics.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.Serialization.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Threading.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.CoreLib.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Extensions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Numerics.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Serialization.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Threading.dll \
 			-resource:${WRKSRC}/src/${PORTNAME}/src/Resources/FxResources.${PORTNAME}.SR.resources \
 			-target:library \
 			-warn:4

@@ -29,7 +29,6 @@ DOTNET_FILES+=		${WRKSRC}/src/${PORTNAME}/src/SR.cs \
 			${WRKSRC}/src/${PORTNAME}/src/System/Collections/Generic/SortedSet.cs \
 			${WRKSRC}/src/${PORTNAME}/src/System/Collections/Generic/Stack.cs \
 			${WRKSRC}/src/${PORTNAME}/src/System/Collections/Generic/StackDebugView.cs \
-			${WRKSRC}/src/${PORTNAME}/src/System/Collections/StructuralComparisons.cs \
 			${WRKSRC}/src/Common/src/System/Collections/HashHelpers.cs \
 			${WRKSRC}/src/Common/src/System/Collections/Generic/EnumerableHelpers.cs
 

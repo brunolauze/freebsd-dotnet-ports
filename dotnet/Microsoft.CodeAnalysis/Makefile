@@ -15,6 +15,7 @@ NET_DEPENDS+=	System.Collections>=1.0:${PORTSDIR}/dotnet/System.Collections \
 		System.Diagnostics.FileVersionInfo>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.FileVersionInfo \
 		System.Data.Common>=1.0:${PORTSDIR}/dotnet/System.Data.Common \
 		System.IO>=1.0:${PORTSDIR}/dotnet/System.IO \
+		System.IO.Compression>=1.0:${PORTSDIR}/dotnet/System.IO.Compression \
 		System.Linq>=1.0:${PORTSDIR}/dotnet/System.Linq \
 		System.Private.Uri>=1.0:${PORTSDIR}/dotnet/System.Private.Uri \
 		System.Runtime>=1.0:${PORTSDIR}/dotnet/System.Runtime \
@@ -58,6 +59,7 @@ DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.FileVersionInfo.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Data.Common.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.IO.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.Compression.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Private.Uri.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.ReaderWriter.dll \
@@ -77,9 +79,11 @@ DOTNET_DEFINES+=	-define:COMPILERCORE \
 
 DOTNET_FILES+=		${DOTNET_FILES_SHARED} \
 			${WRKSRC}/src/Compilers/Core/Portable/AssemblyInfo.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/EmbeddedText.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/CodeGen/ItemTokenMap.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/GlobalSuppressions.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/IncrementalHash.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/DebugSourceInfo.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/PEWriter/ExportedType.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/AdditionalTextFile.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/AssemblyUtilities.cs \
@@ -120,9 +124,12 @@ DOTNET_FILES+=		${DOTNET_FILES_SHARED} \
 			${WRKSRC}/src/Compilers/Core/Portable/StrongName/CryptoBlobParser.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Symbols/ISourceAssemblySymbol.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Symbols/IAssemblySymbolInternal.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Symbols/ISourceAssemblySymbolInternal.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxTreeComparer.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Syntax/ICompilationUnitSyntax.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/SyntaxNavigator.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Syntax/ISkippedTokensTriviaSyntax.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Syntax/InternalSyntax/SyntaxDiagnosticInfoList.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Text/LargeTextWriter.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Text/SourceTextComparer.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Text/SourceTextWriter.cs \
@@ -250,6 +257,7 @@ DOTNET_FILES+=		${DOTNET_FILES_SHARED} \
 			${WRKSRC}/src/Compilers/Core/Portable/Emit/EditAndContinue/EncHoistedLocalMetadata.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Emit/EmitOptions.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Emit/EditAndContinue/EncVariableSlotAllocator.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/EditAndContinue/LambdaSyntaxFacts.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Emit/SemanticEditKind.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/EncodedStringText.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/FileKey.cs \
@@ -364,10 +372,12 @@ DOTNET_FILES+=		${DOTNET_FILES_SHARED} \
 			${WRKSRC}/src/Compilers/Core/Portable/Emit/NoPia/EmbeddedTypesManager.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Emit/NoPia/VtblGap.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Emit/CommonPEModuleBuilder.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/Emit/DebugDocumentsBuilder.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Emit/SemanticEdit.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/EnumConstantHelper.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ArrayExtensions.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/BitArithmeticUtilities.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/BlobBuildingStream.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/FatalError.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ConcurrentDictionaryExtensions.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ConcurrentLruCache.cs \
@@ -375,6 +385,7 @@ DOTNET_FILES+=		${DOTNET_FILES_SHARED} \
 			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/ConsList\`1.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/DecimalUtilities.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/DocumentationCommentXmlNames.cs \
+			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/EncodingExtensions.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/EnumerableExtensions.ComparisonComparer.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/EnumerableExtensions.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/InternalUtilities/EnumField.cs \
@@ -653,7 +664,6 @@ DOTNET_FILES+=		${DOTNET_FILES_SHARED} \
 			${WRKSRC}/src/Compilers/Core/Portable/Symbols/TypeParameterKind.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Symbols/VarianceKind.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Symbols/WellKnownMemberNames.cs \
-			${WRKSRC}/src/Compilers/Core/Portable/Syntax/AbstractSyntaxNavigator.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Syntax/AbstractWarningStateMap.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Syntax/AnnotationExtensions.cs \
 			${WRKSRC}/src/Compilers/Core/Portable/Syntax/ChildSyntaxList.cs \

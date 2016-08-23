@@ -60,28 +60,28 @@ build:
 	@cd ${WRKSRC} && ${FIND} src/NuGet.Core/${PORTNAME} -name "*.cs" | ${XARGS} ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ \
 			-keyfile:${PATCHDIR}/mono.snk \
 			-out:bin/Release/${PORTNAME}.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.IO.FileSystem.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Net.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.InteropServices.RuntimeInformation.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Concurrent.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.Uri.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.Cryptography.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.Cryptography.Algorithms.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Text.RegularExpressions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/NuGet.Common.dll \
-			-reference:${LOCALBASE}/lib/dotnet/NuGet.Frameworks.dll \
-			-reference:${LOCALBASE}/lib/dotnet/NuGet.Versioning.dll \
-			-reference:${LOCALBASE}/lib/dotnet/NuGet.Packaging.Core.Types.dll \
-			-reference:${LOCALBASE}/lib/dotnet/NuGet.Packaging.Core.dll \
-			-reference:${LOCALBASE}/lib/dotnet/NuGet.Packaging.dll \
-			-reference:${LOCALBASE}/lib/dotnet/NuGet.Repositories.dll \
-			-reference:${LOCALBASE}/lib/dotnet/NuGet.RuntimeModel.dll \
-			-reference:${LOCALBASE}/lib/dotnet/NuGet.ContentModel.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.CoreLib.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.FileSystem.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Net.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.InteropServices.RuntimeInformation.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Concurrent.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.Uri.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.Cryptography.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.Cryptography.Algorithms.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Text.RegularExpressions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/NuGet.Common.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/NuGet.Frameworks.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/NuGet.Versioning.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/NuGet.Packaging.Core.Types.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/NuGet.Packaging.Core.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/NuGet.Packaging.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/NuGet.Repositories.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/NuGet.RuntimeModel.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/NuGet.ContentModel.dll \
 			-target:library \
 			-warn:4 \
 			-define:IS_CORECLR \

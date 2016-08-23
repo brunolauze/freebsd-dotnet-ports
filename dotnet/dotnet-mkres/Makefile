@@ -25,15 +25,15 @@ DOTNET_ENTRYPOINT=Microsoft.DotNet.Tools.Resgen.Program
 DOTNET_KEYFILE=${PATCHDIR}/mono.snk
 DOTNET_XARGS?=${FIND} ${WRKSRC} -name '*.cs' | ${XARGS}
 
-DOTNET_REFERENCES+=	${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Collections.dll \
-			${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.IO.FileSystem.dll \
-			${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Runtime.Extensions.dll \
-			${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Resources.Writer.dll \
-			${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Xml.ReaderWriter.dll \
-			${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Xml.XDocument.dll
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.FileSystem.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Extensions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Resources.Writer.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.ReaderWriter.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XDocument.dll
 
 DOTNET_BIN_PROGRAM=	dotnet-mkres
 

@@ -17,14 +17,14 @@ NET_DEPENDS+=	System.Collections>=1.0:${PORTSDIR}/dotnet/System.Collections \
 post-patch:
 	@${FIND} ${WRKSRC}/src/${PORTNAME}/src -name "*.NetStandard10.cs" -delete
 
-DOTNET_REFERENCES+=	-reference:${LOCALBASE}/lib/dotnet/System.Collections.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.NonGeneric.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Specialized.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.ComponentModel.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.ComponentModel.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.Uri.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.NonGeneric.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Specialized.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.ComponentModel.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.ComponentModel.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.Uri.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll
 
 .include <../../dotnet/coreclr/corefx.common>

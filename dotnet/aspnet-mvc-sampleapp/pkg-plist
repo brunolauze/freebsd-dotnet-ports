@@ -1,0 +1,3 @@
+bin/aspnet-mvc-sampleapp
+lib/dotnet/aspnet-mvc-sampleapp.exe
+libdata/pkgconfig/aspnet-mvc-sampleapp.pc

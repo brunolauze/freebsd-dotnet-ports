@@ -49,23 +49,23 @@ post-patch:
 	@${RM} ${WRKSRC}/src/System.Net.NetworkInformation/src/System/Net/NetworkInformation/SystemUnicastIPAddressInformation.cs
 	@${RM} ${WRKSRC}/src/System.Net.NetworkInformation/src/System/Net/NetworkInformation/TeredoHelper.cs
 
-DOTNET_REFERENCES+=	-reference:${LOCALBASE}/lib/dotnet/Microsoft.Win32.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.DiagnosticSource.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.IO.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.IO.FileSystem.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.IO.Compression.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Net.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.Extensions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.Uri.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.Cryptography.Algorithms.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.Cryptography.Encoding.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.Cryptography.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.Cryptography.OpenSsl.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.Cryptography.X509Certificates.dll
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Win32.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.DiagnosticSource.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.FileSystem.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.Compression.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Net.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Extensions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.Uri.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.Cryptography.Algorithms.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.Cryptography.Encoding.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.Cryptography.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.Cryptography.OpenSsl.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.Cryptography.X509Certificates.dll
 
 DOTNET_DEFINES+=	-define:FEATURE_CORECLR
 

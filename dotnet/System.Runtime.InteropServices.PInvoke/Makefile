@@ -7,7 +7,7 @@ PORTVERSION=	1.0.0.0
 NET_DEPENDS+=	System.Diagnostics.Debug>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.Debug \
 		System.Runtime>=1.0:${PORTSDIR}/dotnet/System.Runtime
 
-DOTNET_REFERENCES+=	-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll
 
 .include <../../dotnet/coreclr/corefx.common>

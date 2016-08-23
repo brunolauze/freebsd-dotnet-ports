@@ -27,13 +27,13 @@ ROSLYN_TOOLS+=	Roslyn.Compilers.Internal.BoundTreeGenerator>=1.0:${PORTSDIR}/dot
 USE_GITHUB=	yes
 GH_ACCOUNT=	dotnet
 GH_PROJECT=	roslyn
+DOTNET_KEYFILE=	${PATCHDIR}/mono.snk
+DOTNET_SOURCE_PATH=${WRKSRC}/src/Compilers/CSharp/Portable
 
-
-DOTNET_RESOURCE_COMMAND=cd ${WRKSRC}/src/Compilers/CSharp/Portable && ${DOTNET_RESGEN} CSharpResources.resx,${PORTNAME}.CSharpResources.resources
-DOTNET_PREBUILD_COMMAND=cd ${WRKSRC}/src/Compilers/CSharp/Portable && ${LOCALBASE}/bin/roslyn.boundtreegenerator CSharp BoundTree/BoundNodes.xml BoundTree/BoundNodes.Generated.cs && \
-			cd ${WRKSRC}/src/Compilers/CSharp/Portable && ${LOCALBASE}/bin/roslyn.csharpsyntaxgenerator Syntax/Syntax.xml Syntax/Syntax.xml.Generated.cs && \
-			cd ${WRKSRC}/src/Compilers/CSharp/Portable && ${LOCALBASE}/bin/roslyn.csharperrorfactsgenerator Errors/ErrorCode.cs Errors/ErrorFacts.Generated.cs
-
+DOTNET_RESOURCE_COMMAND=cd ${DOTNET_SOURCE_PATH} && ${DOTNET_RESGEN} CSharpResources.resx,${PORTNAME}.CSharpResources.resources
+DOTNET_PREBUILD_COMMAND=cd ${DOTNET_SOURCE_PATH} && ${LOCALBASE}/bin/roslyn.boundtreegenerator CSharp BoundTree/BoundNodes.xml BoundTree/BoundNodes.Generated.cs && \
+			cd ${DOTNET_SOURCE_PATH} && ${LOCALBASE}/bin/roslyn.csharpsyntaxgenerator Syntax/Syntax.xml Syntax/  && \
+			cd ${DOTNET_SOURCE_PATH} && ${LOCALBASE}/bin/roslyn.csharperrorfactsgenerator Errors/ErrorCode.cs Errors/ErrorFacts.Generated.cs
 
 post-patch:
 	@${RM} ${WRKSRC}/src/Compilers/CSharp/Portable/Utilities/IVsSQM.cs
@@ -43,6 +43,8 @@ post-patch:
 	@${RM} ${WRKSRC}/src/Compilers/CSharp/Portable/FlowAnalysis/AbstractFlowPass.AbstractLocalState.cs
 	@${RM} ${WRKSRC}/src/Compilers/CSharp/Portable/Lowering/StateMachineRewriter/StateMachineHoistedLocalSymbol.cs
 	@${RM} ${WRKSRC}/src/Compilers/CSharp/Portable/Syntax/SyntaxNodeFacts.cs
+
+DOTNET_UNSAFE=  yes
 
 DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Concurrent.dll \

@@ -3,22 +3,12 @@
 
 PORTNAME=	Microsoft.AspNetCore.Mvc.Razor
 PORTVERSION=	1.0.0.0
-CATEGORIES=	dotnet devel
-MAINTAINER=	brunolauze@msn.com
 
-VALID_CATEGORIES+=dotnet #COMMENT=        Open source implementation of .NET Development Framework
-
-BUILD_DEPENDS+= mono:${PORTSDIR}/lang/mono \
-		${NET_DEPENDS} \
-		Microsoft.Extensions.PropertyActivator.Sources>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.PropertyActivator.Sources \
+BUILD_DEPENDS+=	Microsoft.Extensions.PropertyActivator.Sources>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.PropertyActivator.Sources \
 		Microsoft.Extensions.PropertyHelper.Sources>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.PropertyHelper.Sources \
 		Microsoft.Extensions.HashCodeCombiner.Sources>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.HashCodeCombiner.Sources
 
-RUN_DEPENDS+=	${NET_DEPENDS}
-
-NET_DEPENDS+=	coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
-		System.Private.CoreLib>=1.0:${PORTSDIR}/dotnet/System.Private.CoreLib \
-		Microsoft.CodeAnalysis.CSharp>=1.0:${PORTSDIR}/dotnet/Microsoft.CodeAnalysis.CSharp \
+NET_DEPENDS+=	Microsoft.CodeAnalysis.CSharp>=1.0:${PORTSDIR}/dotnet/Microsoft.CodeAnalysis.CSharp \
 		Microsoft.Extensions.FileProviders.Abstractions>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.FileProviders.Abstractions \
 		Microsoft.Extensions.FileProviders.Physical>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.FileProviders.Physical \
 		Microsoft.Extensions.FileProviders.Composite>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.FileProviders.Composite \
@@ -50,87 +40,61 @@ NET_DEPENDS+=	coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
 		System.Text.Encodings.Web>=1.0:${PORTSDIR}/dotnet/System.Text.Encodings.Web \
 		System.Buffers>=1.0:${PORTSDIR}/dotnet/System.Buffers
 
-USE_GITHUB=     yes
-GH_ACCOUNT=     aspnet
 GH_PROJECT=     Mvc
 
-USES=           dotnet
+DOTNET_RESOURCE_COMMAND=cd ${WRKSRC}/src/${PORTNAME} && ${DOTNET_RESGEN} Resources.resx,${PORTNAME}.Resources.resources
 
-configure:
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/Microsoft.CodeAnalysis.CSharp.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Concurrent.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Dynamic.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.FileSystem.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.Expressions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.ObjectModel.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.Claims.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Extensions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.FileProviders.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.FileProviders.Physical.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.FileProviders.Composite.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Hosting.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Hosting.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Routing.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Razor.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Razor.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Mvc.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Mvc.Razor.Host.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Mvc.ViewFeatures.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Mvc.Core.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Http.Features.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Http.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Http.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Html.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Diagnostics.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Antiforgery.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.DependencyModel.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.DependencyInjection.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Logging.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Caching.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Caching.Memory.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.PlatformAbstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Options.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.CodeAnalysis.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.CodeAnalysis.CSharp.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Buffers.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Immutable.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Reflection.Metadata.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Text.Encodings.Web.dll
 
-do-configure:
+DOTNET_RESOURCES+=	-resource:src/${PORTNAME}/${PORTNAME}.Resources.resources
 
-build:
-	@mkdir -p ${STAGEDIR}
-	@mkdir -p ${STAGEDIR}/usr
-	@mkdir -p ${STAGEDIR}${PREFIX}
-	@mkdir -p ${STAGEDIR}${PREFIX}/lib
-	@mkdir -p ${STAGEDIR}${PREFIX}/lib/dotnet
-	@mkdir -p ${STAGEDIR}${PREFIX}/libdata
-	@mkdir -p ${STAGEDIR}${PREFIX}/libdata/pkgconfig
-	@mkdir -p ${WRKSRC}/bin
-	@mkdir -p ${WRKSRC}/bin/Release
-	@cd ${WRKSRC}/src/${PORTNAME} && resgen /useSourcePath /compile Resources.resx,${PORTNAME}.Resources.resources
-	@cd ${WRKSRC} && ${FIND} src/${PORTNAME} -name "*.cs" | ${XARGS} ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ \
-			-keyfile:./tools/Key.snk \
-			-out:bin/Release/${PORTNAME}.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.CodeAnalysis.CSharp.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Concurrent.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Dynamic.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.IO.FileSystem.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.Expressions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.ObjectModel.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.Claims.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.Extensions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.FileProviders.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.FileProviders.Physical.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.FileProviders.Composite.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Hosting.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Hosting.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Routing.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Razor.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Razor.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Mvc.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Mvc.Razor.Host.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Mvc.ViewFeatures.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Mvc.Core.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Http.Features.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Http.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Http.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Html.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Diagnostics.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Antiforgery.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.DependencyModel.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.DependencyInjection.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Logging.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Caching.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Caching.Memory.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.PlatformAbstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Options.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.CodeAnalysis.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.CodeAnalysis.CSharp.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Buffers.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Immutable.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Reflection.Metadata.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Text.Encodings.Web.dll \
-			-resource:src/${PORTNAME}/${PORTNAME}.Resources.resources \
-			-define:CORECLR \
-			-target:library \
-			-warn:4 \
-			${LOCALBASE}/include/dotnet/Microsoft.Extensions.HashCodeCombiner.Sources/HashCodeCombiner.cs \
+DOTNET_DEFINES+=	-define:CORECLR
+
+DOTNET_FILES+=		${LOCALBASE}/include/dotnet/Microsoft.Extensions.HashCodeCombiner.Sources/HashCodeCombiner.cs \
 			${LOCALBASE}/include/dotnet/Microsoft.Extensions.PropertyHelper.Sources/PropertyHelper.cs \
 			${LOCALBASE}/include/dotnet/Microsoft.Extensions.PropertyActivator.Sources/PropertyActivator.cs
 
-do-install:
-	@${INSTALL_DATA} ${WRKSRC}/bin/Release/${PORTNAME}.dll ${STAGEDIR}${PREFIX}/lib/dotnet/${PORTNAME}.dll
-	@echo "Name:	${PORTNAME}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Version: ${PORTVERSION}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Description:  .NET Assembly" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-
-.include <bsd.port.mk>
+.include <../../dotnet/aspnet/Makefile.common>

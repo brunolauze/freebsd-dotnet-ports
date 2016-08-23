@@ -22,22 +22,20 @@ post-patch:
 	@${FIND} ${WRKSRC}/src/${PORTNAME}/src -name "*.Windows.cs" -delete
 	@${RM} ${WRKSRC}/src/${PORTNAME}/src/System/Net/SecurityContextTokenHandle.cs
 
-DOTNET_REFERENCES+=	-reference:${LOCALBASE}/lib/dotnet/Microsoft.Win32.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Concurrent.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.Uri.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Net.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.Cryptography.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.Cryptography.Algorithms.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.Cryptography.Encoding.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.Cryptography.OpenSsl.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.Cryptography.X509Certificates.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.Claims.dll
-
-DOTNET_DEFINES+=	-define:NETSTANDARD1_3
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Win32.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Concurrent.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.Uri.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Net.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.Cryptography.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.Cryptography.Algorithms.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.Cryptography.Encoding.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.Cryptography.OpenSsl.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.Cryptography.X509Certificates.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.Claims.dll
 
 DOTNET_FILES+=		${WRKSRC}/src/Common/src/System/Net/Shims/TraceSource.cs \
 			${WRKSRC}/src/Common/src/System/Net/Logging/LoggingHash.cs \

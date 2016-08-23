@@ -4,8 +4,7 @@
 PORTNAME=	Microsoft.CodeAnalysis.CSharp.CommandLine
 PORTVERSION=	1.0.0.0
 
-O_NET_DEPENDS+=	coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
-		System.Collections.Immutable>=1.0:${PORTSDIR}/dotnet/System.Collections.Immutable \
+NET_DEPENDS+=	System.Collections.Immutable>=1.0:${PORTSDIR}/dotnet/System.Collections.Immutable \
 		System.Console>=1.0:${PORTSDIR}/dotnet/System.Console \
 		System.Diagnostics.Debug>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.Debug \
 		System.Diagnostics.Process>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.Process \
@@ -41,8 +40,7 @@ DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Console.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XDocument.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.CodeAnalysis.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.CodeAnalysis.CSharp.dll \
-			${DOTNET_REF}:${DOTNET_PATH}/System.Reflection.Metadata.dll \
-			${DOTNET_REF}:${DOTNET_PATH}/mscorlib.dll
+			${DOTNET_REF}:${DOTNET_PATH}/System.Reflection.Metadata.dll
 
 DOTNET_FILES+=		src/Compilers/Shared/CoreClrAnalyzerAssemblyLoader.cs \
 			src/Compilers/Shared/CoreClrBuildClient.cs \

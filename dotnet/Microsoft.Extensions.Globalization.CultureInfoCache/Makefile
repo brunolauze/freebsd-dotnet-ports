@@ -10,15 +10,7 @@ NET_DEPENDS+=   System.Collections.Concurrent>=1.0:${PORTSDIR}/dotnet/System.Col
 		Microsoft.Extensions.Localization.Abstractions>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.Localization.Abstractions \
 		Microsoft.Extensions.Options>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.Options
 
-USE_GITHUB=	yes
-GH_ACCOUNT=	aspnet
 GH_PROJECT=	Localization
-
-USES=           dotnet
-
-configure:
-
-do-configure:
 
 DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Concurrent.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \

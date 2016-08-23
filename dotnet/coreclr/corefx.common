@@ -7,5 +7,10 @@ DOTNET_KEYFILE=		${PATCHDIR}/mono.snk
 DOTNET_UNSAFE=		yes
 PORTREVISION=		1
 
+DOTNET_DEFINES+=        -define:DOTNET \
+			-define:CORECLR \
+			-define:NETSTANDARD1_3 \
+			-define:NETSTANDARD1_5 \
+			-define:NETSTANDARD1_6
 
 .include <../../dotnet/coreclr/Makefile.common>

@@ -50,17 +50,17 @@ build:
 	@cd ${WRKSRC} && ${FIND} src/XMakeCommandLine -name "*.cs" | ${XARGS} ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ -unsafe+ \
 			-keyfile:${PATCHDIR}/mono.snk \
 			-out:bin/Release/MSBuild.exe \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Configuration.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Core.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xaml.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Reflection.Metadata.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Build.Framework.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Build.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.CoreLib.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Configuration.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Core.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xaml.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Reflection.Metadata.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Build.Framework.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Build.dll \
 			-resource:src/Shared/MSBuild.Strings.shared.resources \
 			-resource:src/XMakeCommandLine/MSBuild.Strings.resources \
 			-define:FEATURE_SECURITY_PERMISSIONS \

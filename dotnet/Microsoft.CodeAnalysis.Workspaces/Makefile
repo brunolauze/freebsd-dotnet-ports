@@ -74,38 +74,38 @@ build:
 	@cd ${WRKSRC} && ${FIND} src/Workspaces/Core/Portable -name "*.cs" | ${XARGS} ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ -unsafe+ \
 			-keyfile:${PATCHDIR}/mono.snk \
 			-out:bin/Release/${PORTNAME}.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.Extensions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.InteropServices.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.Numerics.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Concurrent.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Immutable.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.NonGeneric.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Specialized.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.ComponentModel.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Composition.AttributedModel.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Composition.Convention.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Composition.Hosting.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Composition.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Composition.TypedParts.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Tools.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Data.Common.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.IO.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.IO.FileSystem.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.Uri.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.ReaderWriter.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.XDocument.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.XmlDocument.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Reflection.Metadata.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Text.RegularExpressions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Threading.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Threading.Tasks.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Threading.Tasks.Extensions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.CodeAnalysis.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.CoreLib.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Extensions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.InteropServices.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Numerics.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Concurrent.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Immutable.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.NonGeneric.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Specialized.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.ComponentModel.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Composition.AttributedModel.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Composition.Convention.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Composition.Hosting.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Composition.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Composition.TypedParts.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Tools.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Data.Common.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.FileSystem.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.Uri.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.ReaderWriter.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XDocument.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XmlDocument.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Reflection.Metadata.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Text.RegularExpressions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Threading.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Threading.Tasks.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Threading.Tasks.Extensions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.CodeAnalysis.dll \
 			-resource:src/Workspaces/Core/Portable/${PORTNAME}.WorkspacesResources.resources \
 			-target:library \
 			-define:NETSTANDARD1_3 \

@@ -10,6 +10,7 @@ NET_DEPENDS+=	System.Collections>=1.0:${PORTSDIR}/dotnet/System.Collections \
 		System.Linq>=1.0:${PORTSDIR}/dotnet/System.Linq \
 		System.Native>=1.0:${PORTSDIR}/dotnet/System.Native \
 		System.Runtime>=1.0:${PORTSDIR}/dotnet/System.Runtime \
+		System.Runtime.InteropServices.RuntimeInformation>=1.0:${PORTSDIR}/dotnet/System.Runtime.InteropServices.RuntimeInformation \
 		System.Console>=1.0:${PORTSDIR}/dotnet/System.Console \
 		Microsoft.Extensions.Primitives>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.Primitives \
 		Microsoft.Extensions.PlatformAbstractions>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.PlatformAbstractions \
@@ -23,6 +24,7 @@ DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Console.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.InteropServices.RuntimeInformation.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Primitives.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.PlatformAbstractions.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Configuration.Abstractions.dll \

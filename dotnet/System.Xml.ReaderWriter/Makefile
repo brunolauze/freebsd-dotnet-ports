@@ -15,14 +15,14 @@ NET_DEPENDS+=   System.Collections>=1.0:${PORTSDIR}/dotnet/System.Collections \
 
 DOTNET_RESOURCE_COMMAND=@cd ${WRKSRC}/src/${PORTNAME}/src/Resources && ${DOTNET_RESGEN} Strings.resx,FxResources.${PORTNAME}.SR.resources
 
-DOTNET_REFERENCES+=     ${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Collections.dll \
-			${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.IO.FileSystem.dll \
-			${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Private.Uri.dll \
-			${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Text.RegularExpressions.dll \
-			${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Threading.dll \
-			${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Threading.Tasks.Extensions.dll 
+DOTNET_REFERENCES+=     ${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.FileSystem.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.Uri.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Text.RegularExpressions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Threading.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Threading.Tasks.Extensions.dll 
 
 DOTNET_RESOURCES+=      ${DOTNET_RES}:${WRKSRC}/src/${PORTNAME}/src/Resources/FxResources.${PORTNAME}.SR.resources
 

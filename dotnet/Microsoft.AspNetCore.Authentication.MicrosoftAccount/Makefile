@@ -10,45 +10,38 @@ NET_DEPENDS+=   Microsoft.Extensions.Primitives>=1.0:${PORTSDIR}/dotnet/Microsof
 		Microsoft.AspNetCore.Http.Extensions>=1.0:${PORTSDIR}/dotnet/Microsoft.AspNetCore.Http.Extensions \
 		Microsoft.Extensions.Logging.Abstractions>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.Logging.Abstractions \
 		Microsoft.AspNetCore.Authentication.OAuth>=1.0:${PORTSDIR}/dotnet/Microsoft.AspNetCore.Authentication.OAuth \
-		Newtonsoft.Json>=8.0:${PORTSDIR}/dotnet/Newtonsoft.Json \
+		Newtonsoft.Json>=9.0:${PORTSDIR}/dotnet/Newtonsoft.Json \
+		System.Net.Primitives>=1.0:${PORTSDIR}/dotnet/System.Net.Primitives \
 		System.Text.Encodings.Web>=1.0:${PORTSDIR}/dotnet/System.Text.Encodings.Web
 
 GH_PROJECT=	Security
 
 DOTNET_RESOURCE_COMMAND=cd ${WRKSRC}/src/${PORTNAME} && ${DOTNET_RESGEN} Resources.resx,${PORTNAME}.Resources.resources
 
-DOTNET_REFERENCES+=	-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Dynamic.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.ObjectModel.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.Uri.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Net.Http.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.Claims.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.DataProtection.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.DataProtection.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Http.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Http.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Http.Extensions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Http.Features.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Logging.Abstractions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Authentication.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.AspNetCore.Authentication.OAuth.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.Options.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Newtonsoft.Json.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Text.Encodings.Web.dll
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Dynamic.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.ObjectModel.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.Uri.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Net.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Net.Http.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.Claims.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.DataProtection.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.DataProtection.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Http.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Http.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Http.Extensions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Http.Features.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Logging.Abstractions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Authentication.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.AspNetCore.Authentication.OAuth.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Options.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Newtonsoft.Json.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Text.Encodings.Web.dll
 
 DOTNET_RESOURCES+=	-resource:src/${PORTNAME}/${PORTNAME}.Resources.resources
-
-DOTNET_FILES+=		src/Microsoft.AspNetCore.Authentication.MicrosoftAccount/MicrosoftAccountMiddleware.cs \
-			src/Microsoft.AspNetCore.Authentication.MicrosoftAccount/MicrosoftAccountAppBuilderExtensions.cs \
-			src/Microsoft.AspNetCore.Authentication.MicrosoftAccount/Properties/AssemblyInfo.cs \
-			src/Microsoft.AspNetCore.Authentication.MicrosoftAccount/Properties/Resources.Designer.cs \
-			src/Microsoft.AspNetCore.Authentication.MicrosoftAccount/MicrosoftAccountDefaults.cs \
-			src/Microsoft.AspNetCore.Authentication.MicrosoftAccount/MicrosoftAccountHelper.cs \
-			src/Microsoft.AspNetCore.Authentication.MicrosoftAccount/MicrosoftAccountOptions.cs \
-			src/Microsoft.AspNetCore.Authentication.MicrosoftAccount/MicrosoftAccountHandler.cs
 
 .include <../../dotnet/aspnet/Makefile.common>
 

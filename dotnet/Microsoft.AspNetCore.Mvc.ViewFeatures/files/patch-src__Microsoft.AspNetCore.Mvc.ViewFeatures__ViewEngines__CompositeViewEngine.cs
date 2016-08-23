@@ -1,32 +1,36 @@
---- src/Microsoft.AspNetCore.Mvc.ViewFeatures/ViewEngines/CompositeViewEngine.cs.orig	2016-05-12 20:11:20.120475000 -0400
-+++ src/Microsoft.AspNetCore.Mvc.ViewFeatures/ViewEngines/CompositeViewEngine.cs	2016-05-12 20:12:03.540643000 -0400
-@@ -6,6 +6,7 @@
- using System.Linq;
- using Microsoft.AspNetCore.Mvc.ViewFeatures;
- using Microsoft.Extensions.Options;
-+using SR = Microsoft.AspNetCore.Mvc.ViewFeatures.Resources;
- 
- namespace Microsoft.AspNetCore.Mvc.ViewEngines
- {
-@@ -34,7 +35,7 @@
+--- src/Microsoft.AspNetCore.Mvc.ViewFeatures/ViewEngines/CompositeViewEngine.cs.orig	2016-08-16 22:33:13.075488000 -0400
++++ src/Microsoft.AspNetCore.Mvc.ViewFeatures/ViewEngines/CompositeViewEngine.cs	2016-08-16 22:33:46.950621000 -0400
+@@ -34,12 +34,12 @@
  
              if (string.IsNullOrEmpty(viewName))
              {
 -                throw new ArgumentException(Resources.ArgumentCannotBeNullOrEmpty, nameof(viewName));
-+                throw new ArgumentException(SR.ArgumentCannotBeNullOrEmpty, nameof(viewName));
++                throw new ArgumentException(ViewFeatures.Resources.ArgumentCannotBeNullOrEmpty, nameof(viewName));
              }
  
-             // Do not allocate in the common cases: ViewEngines contains one entry or initial attempt is successful.
-@@ -74,7 +75,7 @@
+             if (ViewEngines.Count == 0)
+             {
+-                throw new InvalidOperationException(Resources.FormatViewEnginesAreRequired(
++                throw new InvalidOperationException(ViewFeatures.Resources.FormatViewEnginesAreRequired(
+                     typeof(MvcViewOptions).FullName,
+                     nameof(MvcViewOptions.ViewEngines),
+                     typeof(IViewEngine).FullName));
+@@ -82,12 +82,12 @@
          {
              if (string.IsNullOrEmpty(viewPath))
              {
 -                throw new ArgumentException(Resources.ArgumentCannotBeNullOrEmpty, nameof(viewPath));
-+                throw new ArgumentException(SR.ArgumentCannotBeNullOrEmpty, nameof(viewPath));
++                throw new ArgumentException(ViewFeatures.Resources.ArgumentCannotBeNullOrEmpty, nameof(viewPath));
              }
  
-             // Do not allocate in the common cases: ViewEngines contains one entry or initial attempt is successful.
-@@ -109,4 +110,4 @@
+             if (ViewEngines.Count == 0)
+             {
+-                throw new InvalidOperationException(Resources.FormatViewEnginesAreRequired(
++                throw new InvalidOperationException(ViewFeatures.Resources.FormatViewEnginesAreRequired(
+                     typeof(MvcViewOptions).FullName,
+                     nameof(MvcViewOptions.ViewEngines),
+                     typeof(IViewEngine).FullName));
+@@ -125,4 +125,4 @@
              return ViewEngineResult.NotFound(viewPath, searchedLocations ?? Enumerable.Empty<string>());
          }
      }

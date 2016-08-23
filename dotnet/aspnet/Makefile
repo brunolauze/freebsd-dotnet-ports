@@ -4,7 +4,7 @@ PORTVERSION=	1.0.0.0
 CATEGORIES=	dotnet
 
 MAINTAINER=	brunolauze@msn.com
-
+VALID_CATEGORIES+=	dotnet
 USES=		metaport
 
 RUN_DEPENDS+=	coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
@@ -85,6 +85,7 @@ RUN_DEPENDS+=	coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
 		Microsoft.Extensions.PlatformAbstractions>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.PlatformAbstractions \
 		Microsoft.Extensions.Primitives>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.Primitives \
 		Microsoft.Extensions.WebEncoders>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.WebEncoders \
+		Microsoft.Extensions.DiagnosticAdapter>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.DiagnosticAdapter \
 		Microsoft.Data.Sqlite>=1.0:${PORTSDIR}/dotnet/Microsoft.Data.Sqlite \
 		Microsoft.EntityFrameworkCore>=1.0:${PORTSDIR}/dotnet/Microsoft.EntityFrameworkCore \
 		Microsoft.EntityFrameworkCore.InMemory>=1.0:${PORTSDIR}/dotnet/Microsoft.EntityFrameworkCore.InMemory \
@@ -92,9 +93,9 @@ RUN_DEPENDS+=	coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
 		Microsoft.EntityFrameworkCore.Relational.Design>=1.0:${PORTSDIR}/dotnet/Microsoft.EntityFrameworkCore.Relational.Design \
 		System.Buffers>=1.0:${PORTSDIR}/dotnet/System.Buffers \
 		System.Collections.Immutable>=1.0:${PORTSDIR}/dotnet/System.Collections.Immutable \
-		System.Data.Pgsql>=1.0:${PORTSDIR}/dotnet/System.Data.Pgsql \
 		System.Reflection.Metadata>=1.0:${PORTSDIR}/dotnet/System.Reflection.Metadata \
 		System.Text.Encodings.Web>=1.0:${PORTSDIR}/dotnet/System.Text.Encodings.Web \
+		System.Diagnostics.DiagnosticSource>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.DiagnosticSource \
 		System.Threading.Tasks.Extensions>=1.0:${PORTSDIR}/dotnet/System.Threading.Tasks.Extensions
 
 

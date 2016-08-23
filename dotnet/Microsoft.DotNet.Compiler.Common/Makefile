@@ -62,36 +62,36 @@ build:
 	@cd ${WRKSRC} && ${FIND} src/${PORTNAME} -name "*.cs" | ${XARGS} ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ -unsafe+ \
 			-keyfile:${PATCHDIR}/mono.snk \
 			-out:bin/Release/${PORTNAME}.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.CSharp.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.CodeAnalysis.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.CodeAnalysis.CSharp.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.DotNet.ProjectModel.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.DotNet.Cli.Utils.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.DotNet.Files.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Process.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.IO.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.IO.FileSystem.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.Expressions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.ObjectModel.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Dynamic.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Immutable.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.Serialization.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.Cryptography.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.Cryptography.Algorithms.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.ReaderWriter.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.XDocument.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Reflection.Metadata.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Newtonsoft.Json.dll \
-			-reference:${LOCALBASE}/lib/dotnet/NuGet.Packaging.dll \
-			-reference:${LOCALBASE}/lib/dotnet/NuGet.RuntimeModel.dll \
-			-reference:${LOCALBASE}/lib/dotnet/NuGet.Versioning.dll \
-			-reference:${LOCALBASE}/lib/dotnet/NuGet.Frameworks.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Extensions.DependencyModel.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.CoreLib.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.CSharp.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.CodeAnalysis.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.CodeAnalysis.CSharp.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.DotNet.ProjectModel.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.DotNet.Cli.Utils.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.DotNet.Files.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Process.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.IO.FileSystem.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.Expressions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.ObjectModel.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Dynamic.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Immutable.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Serialization.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.Cryptography.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.Cryptography.Algorithms.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.ReaderWriter.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XDocument.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Reflection.Metadata.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Newtonsoft.Json.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/NuGet.Packaging.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/NuGet.RuntimeModel.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/NuGet.Versioning.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/NuGet.Frameworks.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.DependencyModel.dll \
 			-define:COMPILERCORE \
 			-target:library \
 			-warn:4

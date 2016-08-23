@@ -4,9 +4,7 @@
 PORTNAME=	Microsoft.Extensions.Primitives
 PORTVERSION=	1.0.0.0
 
-NET_DEPENDS+=	coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
-		System.Private.CoreLib>=1.0:${PORTSDIR}/dotnet/System.Private.CoreLib \
-		System.Runtime>=1.0:${PORTSDIR}/dotnet/System.Runtime
+NET_DEPENDS+=	System.Runtime>=1.0:${PORTSDIR}/dotnet/System.Runtime
 
 GH_PROJECT=	Common
 

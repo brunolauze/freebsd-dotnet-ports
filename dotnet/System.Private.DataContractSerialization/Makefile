@@ -3,19 +3,8 @@
 
 PORTNAME=	System.Private.DataContractSerialization
 PORTVERSION=	1.0.0.0
-CATEGORIES=	dotnet devel
-MAINTAINER=	brunolauze@msn.com
 
-VALID_CATEGORIES+=dotnet #COMMENT=        Open source implementation of .NET Development Framework
-
-BUILD_DEPENDS+= mono:${PORTSDIR}/lang/mono \
-		${NET_DEPENDS}
-
-RUN_DEPENDS+=	${NET_DEPENDS}
-
-NET_DEPENDS+=	coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
-		System.Private.CoreLib>=1.0:${PORTSDIR}/dotnet/System.Private.CoreLib \
-		System.Collections>=1.0:${PORTSDIR}/dotnet/System.Collections \
+NET_DEPENDS+=	System.Collections>=1.0:${PORTSDIR}/dotnet/System.Collections \
 		System.Collections.Concurrent>=1.0:${PORTSDIR}/dotnet/System.Collections.Concurrent \
 		System.Diagnostics.Debug>=1.0:${PORTSDIR}/dotnet/System.Diagnostics.Debug \
 		System.Linq>=1.0:${PORTSDIR}/dotnet/System.Linq \
@@ -27,57 +16,39 @@ NET_DEPENDS+=	coreclr>=1.0:${PORTSDIR}/dotnet/coreclr \
 		System.Text.RegularExpressions>=1.0:${PORTSDIR}/dotnet/System.Text.RegularExpressions \
 		System.Xml.ReaderWriter>=1.0:${PORTSDIR}/dotnet/System.Xml.ReaderWriter \
 		System.Xml.XmlDocument>=1.0:${PORTSDIR}/dotnet/System.Xml.XmlDocument \
+		System.Xml.XDocument>=1.0:${PORTSDIR}/dotnet/System.Xml.XDocument \
 		System.Xml.XmlSerializer>=1.0:${PORTSDIR}/dotnet/System.Xml.XmlSerializer \
 
-USE_GITHUB=	yes
-GH_ACCOUNT=	dotnet
-GH_PROJECT=	corefx
-GH_TAGNAME=	master
-
-USES=           dotnet
-
-configure:
-
-do-configure:
-
-build:
-	@mkdir -p ${STAGEDIR}
-	@mkdir -p ${STAGEDIR}/usr
-	@mkdir -p ${STAGEDIR}${PREFIX}
-	@mkdir -p ${STAGEDIR}${PREFIX}/lib
-	@mkdir -p ${STAGEDIR}${PREFIX}/lib/dotnet
-	@mkdir -p ${STAGEDIR}${PREFIX}/libdata
-	@mkdir -p ${STAGEDIR}${PREFIX}/libdata/pkgconfig
-	@mkdir -p ${WRKSRC}/bin
-	@mkdir -p ${WRKSRC}/bin/Release
+post-patch:
 	@${RM} ${WRKSRC}/src/${PORTNAME}/src/System/Runtime/Serialization/SerializationException.cs
 	@${FIND} ${WRKSRC}/src/${PORTNAME}/src -name "*.Desktop.cs" -delete
 	@${FIND} ${WRKSRC}/src/${PORTNAME}/src -name "*.Windows.cs" -delete
-	@cd ${WRKSRC}/src/${PORTNAME}/src/Resources && resgen /useSourcePath /compile Strings.resx,FxResources.${PORTNAME}.SR.resources
-	@cd ${WRKSRC} && ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ -unsafe+ \
-			-keyfile:${PATCHDIR}/mono.snk \
-			-out:bin/Release/${PORTNAME}.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Collections.Concurrent.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.Uri.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.Numerics.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Runtime.Serialization.Primitives.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Threading.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Text.RegularExpressions.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.ReaderWriter.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.XmlDocument.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.XmlSerializer.dll \
-			-resource:${WRKSRC}/src/${PORTNAME}/src/Resources/FxResources.${PORTNAME}.SR.resources \
-			-target:library \
-			-define:NETSTANDARD1_3 \
-			-warn:4 \
-			${WRKSRC}/src/Common/src/System/HResults.cs \
-			${WRKSRC}/src/Common/src/System/NotImplemented.cs \
-			${WRKSRC}/src/System.Private.DataContractSerialization/src/SR.cs \
+
+DOTNET_RESOURCE_COMMAND=cd ${WRKSRC}/src/${PORTNAME}/src/Resources && ${DOTNET_RESGEN} Strings.resx,FxResources.${PORTNAME}.SR.resources
+
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Collections.Concurrent.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.Uri.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Numerics.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Serialization.Primitives.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Threading.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Text.RegularExpressions.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.ReaderWriter.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XmlDocument.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XDocument.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.XmlSerializer.dll
+
+DOTNET_RESOURCES+=	-resource:${WRKSRC}/src/${PORTNAME}/src/Resources/FxResources.${PORTNAME}.SR.resources
+
+DOTNET_FILES+=		${WRKSRC}/src/Common/src/System/HResults.cs \
+			${WRKSRC}/src/Common/src/System/NotImplemented.cs
+
+DOTNET_XARGS=
+
+DOTNET_FILES+=		${WRKSRC}/src/System.Private.DataContractSerialization/src/SR.cs \
 			${WRKSRC}/src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/Attributes.cs \
 			${WRKSRC}/src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/CodeGenerator.cs \
 			${WRKSRC}/src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/ClassDataContract.cs \
@@ -185,12 +156,14 @@ build:
 			${WRKSRC}/src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/Json/IXmlJsonWriterInitializer.cs \
 			${WRKSRC}/src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/Json/ByteArrayHelperWithString.cs \
 			${WRKSRC}/src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/Json/JsonEncodingStreamWrapper.cs \
-			${WRKSRC}/src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/Json/JsonFormatGeneratorStatics.cs
+			${WRKSRC}/src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/Json/JsonFormatGeneratorStatics.cs \
+			${WRKSRC}/src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/SerializationOption.cs \
+			${WRKSRC}/src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/AccessorBuilder.cs \
+			${WRKSRC}/src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/Json/ReflectionJsonFormatReader.cs \
+			${WRKSRC}/src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/Json/ReflectionJsonFormatWriter.cs \
+			${WRKSRC}/src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/ReflectionXmlFormatReader.cs \
+			${WRKSRC}/src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/ReflectionXmlFormatWriter.cs \
+			${WRKSRC}/src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/ReflectionReader.cs \
+			${WRKSRC}/src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/ReflectionClassWriter.cs
 
-do-install:
-	@${INSTALL_DATA} ${WRKSRC}/bin/Release/${PORTNAME}.dll ${STAGEDIR}${PREFIX}/lib/dotnet/${PORTNAME}.dll
-	@echo "Name:	${PORTNAME}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Version: ${PORTVERSION}" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-	@echo "Description:  .NET Assembly" >> ${STAGEDIR}${PREFIX}/libdata/pkgconfig/${PORTNAME}.pc
-
-.include <bsd.port.mk>
+.include <../../dotnet/coreclr/corefx.common>

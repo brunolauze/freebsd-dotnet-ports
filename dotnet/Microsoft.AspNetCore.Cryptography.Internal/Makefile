@@ -25,8 +25,6 @@ DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
 
 DOTNET_RESOURCES+=	-resource:src/${PORTNAME}/${PORTNAME}.Resources.resources
 
-DOTNET_DEFINES+=	-define:NETSTANDARD1_3
-
 .include <../../dotnet/aspnet/Makefile.common>
 
 

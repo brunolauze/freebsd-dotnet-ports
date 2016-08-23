@@ -1,6 +1,6 @@
---- /dev/null	2016-03-10 11:08:30.000000000 -0500
-+++ src/System.IO.Compression/src/SR.cs	2016-03-10 11:08:46.267509000 -0500
-@@ -0,0 +1,654 @@
+--- /dev/null	2016-08-22 06:38:27.000000000 -0400
++++ src/System.IO.Compression/src/SR.cs	2016-08-22 06:39:21.344262000 -0400
+@@ -0,0 +1,656 @@
 +using System;
 +using System.Resources;
 +
@@ -19,6 +19,8 @@
 +        private static ResourceManager s_resourceManager;
 +
 +        private const String s_resourcesName = "FxResources.System.IO.Compression.SR";
++
++	internal static string UnsupportedCompressionMethod { get { return SR.GetResourceString("UnsupportedCompressionMethod", null); } }
 +
 +        internal static String Argument_InvalidPathChars
 +        {

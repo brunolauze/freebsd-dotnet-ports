@@ -49,18 +49,18 @@ build:
 	@cd ${WRKSRC} && ${FIND} src/XMakeTasks -name "*.cs" | ${XARGS} ${LOCALBASE}/bin/mcs -nostdlib -noconfig -codepage:65001 -debug:pdbonly -optimize+ -unsafe+ \
 			-keyfile:${PATCHDIR}/mono.snk \
 			-out:bin/Release/${PORTNAME}.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Private.CoreLib.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Configuration.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Core.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Security.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Windows.Forms.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xaml.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Xml.Linq.dll \
-			-reference:${LOCALBASE}/lib/dotnet/System.Reflection.Metadata.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Build.Framework.dll \
-			-reference:${LOCALBASE}/lib/dotnet/Microsoft.Build.Utilities.Core.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.CoreLib.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Configuration.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Core.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Security.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Windows.Forms.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xaml.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Xml.Linq.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Reflection.Metadata.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Build.Framework.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Build.Utilities.Core.dll \
 			-resource:src/XMakeTasks/Microsoft.Build.Tasks.Strings.resources \
 			-resource:src/XMakeTasks/BootstrapperUtil/xmltoconfig.xsl,Microsoft.Build.Tasks.Deployment.Bootstrapper.xmltoconfig.xsl \
 			-resource:src/XMakeTasks/ManifestUtil/manifest.xml,Microsoft.Build.Tasks.Deployment.ManifestUtilities.manifest.xml \

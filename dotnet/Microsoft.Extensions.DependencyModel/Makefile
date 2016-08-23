@@ -13,9 +13,11 @@ NET_DEPENDS+=   System.Dynamic.Runtime>=1.0:${PORTSDIR}/dotnet/System.Dynamic.Ru
 		System.Runtime>=1.0:${PORTSDIR}/dotnet/System.Runtime \
 		Microsoft.DotNet.InternalAbstractions>=1.0:${PORTSDIR}/dotnet/Microsoft.DotNet.InternalAbstractions \
 		Microsoft.Extensions.PlatformAbstractions>=1.0:${PORTSDIR}/dotnet/Microsoft.Extensions.PlatformAbstractions \
-		Newtonsoft.Json>=8.0:${PORTSDIR}/dotnet/Newtonsoft.Json
+		Newtonsoft.Json>=9.0:${PORTSDIR}/dotnet/Newtonsoft.Json
 
+GH_ACCOUNT=	dotnet
 GH_PROJECT=	cli
+GH_TAGNAME=	rel/1.0.0
 
 post-patch:
 	@rm -rf ${WRKSRC}/bin

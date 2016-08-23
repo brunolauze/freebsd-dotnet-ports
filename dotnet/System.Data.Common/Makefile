@@ -35,5 +35,6 @@ DOTNET_FILES+=		src/Common/src/System/Threading/Tasks/TaskHelpers.cs \
 
 post-patch:
 	@${FIND} ${WRKSRC}/src/${PORTNAME}/src -name "*.Facade.cs" -delete
+	@${RM} ${WRKSRC}/src/${PORTNAME}/src/System/DBNull.cs
 
 .include <../../dotnet/coreclr/corefx.common>

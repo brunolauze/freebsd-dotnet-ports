@@ -6,8 +6,6 @@ PORTVERSION=	1.0.0.0
 CATEGORIES=	dotnet devel
 MAINTAINER=	brunolauze@msn.com
 
-VALID_CATEGORIES+=dotnet #COMMENT=        Open source implementation of .NET Development Framework
-
 GH_PROJECT=	Routing
 
 build:

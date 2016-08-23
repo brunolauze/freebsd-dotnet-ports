@@ -9,6 +9,6 @@ NET_DEPENDS+=	System.Runtime>=1.0:${PORTSDIR}/dotnet/System.Runtime
 post-patch:
 	@${RM} ${WRKSRC}/src/System.ComponentModel/src/System/IServiceProvider.cs
 
-DOTNET_REFERENCES+=	-reference:${LOCALBASE}/lib/dotnet/System.Runtime.dll
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll
 
 .include <../../dotnet/coreclr/corefx.common>

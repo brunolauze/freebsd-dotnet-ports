@@ -16,6 +16,7 @@ NET_DEPENDS+=	System.Collections>=1.0:${PORTSDIR}/dotnet/System.Collections \
 post-patch:
 	@${FIND} ${WRKSRC}/src/${PORTNAME}/src -name "*.Windows.cs" -delete
 	@${FIND} ${WRKSRC}/src/${PORTNAME}/src -name "*.net46.cs" -delete
+	@${FIND} ${WRKSRC}/src/${PORTNAME}/src -name "*.OSX.cs" -delete
 	@${RM} ${WRKSRC}/src/${PORTNAME}/src/System/Security/Cryptography/CngKeyLite.cs
 	@${RM} ${WRKSRC}/src/${PORTNAME}/src/System/Security/Cryptography/RSACng.cs
 	@${RM} ${WRKSRC}/src/${PORTNAME}/src/Internal/Cryptography/CngCipher.cs

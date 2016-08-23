@@ -15,12 +15,16 @@ NET_DEPENDS+=	System.Collections>=1.0:${PORTSDIR}/dotnet/System.Collections \
 post-patch:
 	@${FIND} ${WRKSRC}/src/${PORTNAME}/src -name "*.Windows.cs" -delete
 
+DOTNET_RESOURCE_COMMAND=@cd ${WRKSRC}/src/${PORTNAME}/src/Resources && ${DOTNET_RESGEN} Strings.resx,FxResources.${PORTNAME}.SR.resources
+
 DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Tools.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.IO.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.IO.FileSystem.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.Extensions.dll
+
+DOTNET_RESOURCES+=      ${DOTNET_RES}:${WRKSRC}/src/${PORTNAME}/src/Resources/FxResources.${PORTNAME}.SR.resources
 
 DOTNET_FILES+=		${WRKSRC}/src/Common/src/Interop/Unix/Interop.Libraries.cs \
 			${WRKSRC}/src/Common/src/System/IO/PathInternal.cs \

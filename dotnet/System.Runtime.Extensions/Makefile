@@ -10,9 +10,9 @@ NET_DEPENDS+=	System.Diagnostics.Debug>=1.0:${PORTSDIR}/dotnet/System.Diagnostic
 
 DOTNET_XARGS=
 
-DOTNET_REFERENCES+=	${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Runtime.dll \
-			${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Private.Uri.dll \
-			${DOTNET_REF}:${LOCALBASE}/lib/dotnet/System.Diagnostics.Debug.dll
+DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Runtime.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Private.Uri.dll \
+			${DOTNET_REF}:${DOTNET_PATH}/System.Diagnostics.Debug.dll
 
 DOTNET_FILES+=		${WRKSRC}/src/${PORTNAME}/src/SR.cs \
 			${WRKSRC}/src/${PORTNAME}/src/AssemblyInfo.cs \

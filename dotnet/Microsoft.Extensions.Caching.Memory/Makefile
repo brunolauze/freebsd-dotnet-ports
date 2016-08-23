@@ -28,6 +28,4 @@ DOTNET_REFERENCES+=	${DOTNET_REF}:${DOTNET_PATH}/System.Collections.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Options.dll \
 			${DOTNET_REF}:${DOTNET_PATH}/Microsoft.Extensions.Caching.Abstractions.dll
 
-DOTNET_DEFINES+=	-define:NETSTANDARD1_3 
-
 .include <../../dotnet/aspnet/Makefile.common>
